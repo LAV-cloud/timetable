@@ -1,0 +1,75 @@
+@import '../../styles/scroll.scss';
+@import '../../styles/colors.scss';
+
+.list {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 20vw;
+  background-color: $first;
+  padding: 20px;
+  transition: all 0.2s ease;
+  &__show {
+    margin-bottom: 20px;
+    border: none;
+    background: 0 0;
+    color: white;
+    opacity: 0.2;
+    font-size: 12px;
+    & svg {
+      font-size: 16px;
+    }
+  }
+  &_hide {
+    width: 50px;
+  }
+  &__items {
+    margin-top: 20px;
+    height: 80%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    @include scroll(6px, 80%, $second, inherit, 20px);
+  }
+  &__notfound {
+    height: 80%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $third;
+  }
+  &__count {
+    margin: 10px auto 0px 0px;
+    text-align: start;
+    color: white;
+    font-size: 14px;
+  }
+}
+
+.item {
+  width: calc(100% - 5px);
+  padding: 12px 20px;
+  margin-bottom: 5px;
+  border: none;
+  background-color: $second;
+  color: white;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+  &:active {
+    background: 0 0;
+  }
+  &_select {
+    background: $accent;
+    &:hover {
+      background: $accent;
+    }
+  }
+}

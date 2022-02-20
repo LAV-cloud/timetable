@@ -1,0 +1,30 @@
+@import '../../styles/colors.scss';
+$size: 30px;
+
+.search {
+  width: 100%;
+  height: $size;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  background-color: $second;
+  border-radius: 6px;
+  &__input {
+    height: $size;
+    width: calc(100% - $size);
+    padding: 0px 10px;
+    background: 0 0;
+    border: none;
+    outline: none;
+    color: white;
+  }
+  &__clear {
+    width: $size;
+    height: $size;
+    border: none;
+    background: 0 0;
+    font-size: 20px;
+    color: $first;
+  }
+}

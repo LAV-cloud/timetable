@@ -1,0 +1,100 @@
+@import '../../styles/scroll.scss';
+@import '../../styles/colors.scss';
+
+.timetable {
+  &__lesson {
+    height: 32px;
+    padding: 5px 20px;
+    background-color: $second;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    margin: 0px 5px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    &_select,
+    &:active {
+      background-color: $first;
+    }
+  }
+  &__lessons {
+    max-width: 80vw;
+    height: 48px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    &:hover {
+      cursor: pointer;
+    }
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background: inherit;
+      border-radius: 20;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: $first;
+      border-radius: 20;
+    }
+  }
+  &__table {
+    background-color: $first;
+    padding: 20px;
+    color: white;
+    border-radius: 8px;
+  }
+}
+
+.header {
+  &__row {
+    background-color: $second;
+  }
+  &__item {
+    border-radius: 4px;
+    padding: 10px 20px;
+  }
+}
+
+.body {
+  &__row {
+    // &:hover {
+    //   background-color: $second;
+    // }
+    &_select {
+      background-color: $accent;
+      & > .body__item:hover {
+        background-color: inherit;
+      }
+      &:hover {
+        background-color: $accent;
+      }
+    }
+  }
+  &__item {
+    transition: all 0.2s ease;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    &:hover {
+      cursor: pointer;
+      background-color: $four;
+    }
+  }
+}
+
+.footer {
+  &__row {
+    background-color: $bg;
+  }
+  &__item {
+    border-radius: 4px;
+    padding: 10px 20px;
+  }
+}

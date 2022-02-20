@@ -1,0 +1,64 @@
+@import '../../styles/scroll.scss';
+@import '../../styles/colors.scss';
+
+.list {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1;
+  max-height: 50%;
+  width: 360px;
+}
+
+.notification {
+  &:active {
+    animation: active 0.3s ease;
+    left: 50px;
+  }
+  width: 100%;
+  padding: 20px;
+  background-color: $accent;
+  border-radius: 10px;
+  margin: 10px 0px;
+  font-size: 14px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  position: relative;
+  &__title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+  }
+  & svg {
+    margin-right: 10px;
+    font-size: 20px;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+  &__text {
+  }
+}
+
+@keyframes appear {
+  0% {
+    right: -100%;
+  }
+  100% {
+    right: 0px;
+  }
+}
+
+@keyframes active {
+  0% {
+    left: 0px;
+  }
+  100% {
+    left: 50px;
+  }
+}

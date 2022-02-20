@@ -1,0 +1,59 @@
+@import '../../styles/scroll.scss';
+@import '../../styles/colors.scss';
+
+.select {
+  position: relative;
+  width: 250px;
+  margin: 0px 20px;
+  &__title {
+    height: 36px;
+    padding: 0px 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    background-color: $second;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    &_open {
+      border-radius: 6px 6px 0px 0px;
+      & svg {
+        transform: rotateZ(180deg);
+      }
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &__list {
+    & hr {
+      width: 100%;
+      height: 2px;
+      color: white;
+      opacity: 0.2;
+      margin: 5px 0px;
+    }
+    width: 100%;
+    padding-bottom: 10px;
+    max-height: 300px;
+    position: absolute;
+    top: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: $second;
+    @include scroll(6px, 300px, $second, inherit, 20px);
+    border-radius: 0px 0px 6px 6px;
+  }
+}
+
+.option {
+  width: 100%;
+  padding: 7px 20px;
+  color: white;
+  &:hover {
+    background-color: $first;
+  }
+}
