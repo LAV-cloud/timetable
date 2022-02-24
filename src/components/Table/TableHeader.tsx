@@ -13,6 +13,7 @@ export default function TableHeader(props: TableHeaderProps) {
                 {props.groups.map((group: Group, i: number) => {
                     return <th key={i} className={styles.header__item}>{group.print}</th>
                 })}
+                <th className={styles.header__item}>Всего</th>
             </tr>
         </thead>
     )

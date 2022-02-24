@@ -21,9 +21,9 @@ interface RemoveNotification {
 export type NotificationAction = AddNotification | RemoveNotification;
 
 export enum NotificationType {
-  error = 'ERROR',
-  warning = 'WARNING',
-  success = 'SUCCESS',
+  error = 'Ошибка',
+  warning = 'Предупреждение',
+  success = 'Успешно',
 }
 
 export interface Notification {

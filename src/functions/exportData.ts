@@ -1,52 +1,78 @@
-import * as xlsx from 'xlsx';
 import * as FileSaver from 'file-saver';
-import { Lesson, Group } from '../types/Teacher';
+import { TeacherState, TeacherProps, Teacher } from '../types/Teacher';
+import ExcelJS, { Workbook } from 'exceljs';
+import { createWorkSheet } from './createWorkSheet';
 
-export const exportData = (
-  filename: string,
-  csvData: Lesson[],
-  workSheetName: string = 'data'
-) => {
+export const exportFile = async (filename: string, state: TeacherState) => {
   const fileType =
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
   const fileExtension = '.xlsx';
 
-  const workBook = xlsx.utils.book_new();
-  const workSheet = createWorkSheet(csvData);
-  xlsx.utils.book_append_sheet(workBook, workSheet, workSheetName);
-
-  const excelBuffer = xlsx.write(workBook, { bookType: 'xlsx', type: 'array' });
-  const data = new Blob([excelBuffer], { type: fileType });
+  const workbook = new ExcelJS.Workbook();
+  workbook.creator = 'App';
+  workbook.lastModifiedBy = 'App';
+  workbook.created = new Date();
+  workbook.modified = new Date();
+  workbook.lastPrinted = new Date();
+  workbook.views = [
+    {
+      x: 0,
+      y: 0,
+      width: 200,
+      height: 200,
+      firstSheet: 0,
+      activeTab: 1,
+      visibility: 'visible',
+    },
+  ];
+  createWorkSheet(
+    workbook,
+    state.teacher!.fullName,
+    state.props!,
+    state.teacher!
+  );
+  const buffer = await workbook.xlsx.writeBuffer();
+  const data = new Blob([buffer], { type: fileType });
   FileSaver.saveAs(data, filename + fileExtension);
 };
 
-function createWorkSheet(data: Lesson[]) {
-  var lessonNames: string[] = [];
-  var groupNames: string[] = [];
-  var groups: Group[] = [];
-  var hours: string[][] = [];
-  var maxRow: number = 0;
-  data.map((lesson: Lesson) => {
-    lessonNames.push(lesson.name);
-    for (let i = 0; i < lesson.groups.length - 1; i++) {
-      lessonNames.push('');
+export async function exportData(
+  filename: string,
+  teachers: Teacher[],
+  teachersProps: TeacherProps[]
+) {
+  const fileType =
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+  const fileExtension = '.xlsx';
+
+  const workbook = createWorkBook('App');
+  teachersProps.map((props: TeacherProps, i: number) => {
+    if (props.lessons.length) {
+      createWorkSheet(workbook, teachers[i].fullName, props, teachers[i]);
     }
-    lesson.groups.map((group: Group) => {
-      groups.push(group);
-      groupNames.push(group.print);
-      maxRow = group.hours.length;
-      return group;
-    });
-    return lesson;
   });
+  const buffer = await workbook.xlsx.writeBuffer();
+  const data = new Blob([buffer], { type: fileType });
+  FileSaver.saveAs(data, filename + fileExtension);
+}
 
-  for (let i = 0; i < maxRow; i++) {
-    hours.push(['']);
-    for (let j = 0; j < groups.length; j++) {
-      hours[i][j] = groups[j].hours[i].toString();
-    }
-  }
-
-  const workSheetData = [lessonNames, groupNames, ...hours];
-  return xlsx.utils.aoa_to_sheet(workSheetData);
+function createWorkBook(name: string = 'App'): Workbook {
+  const workbook = new ExcelJS.Workbook();
+  workbook.creator = name;
+  workbook.lastModifiedBy = name;
+  workbook.created = new Date();
+  workbook.modified = new Date();
+  workbook.lastPrinted = new Date();
+  workbook.views = [
+    {
+      x: 0,
+      y: 0,
+      width: 200,
+      height: 200,
+      firstSheet: 0,
+      activeTab: 1,
+      visibility: 'visible',
+    },
+  ];
+  return workbook;
 }

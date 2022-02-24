@@ -7,6 +7,7 @@ interface TableItemProps {
     currentMonth: number,
     groups: Group[],
     month: string
+    totalHoursByMonth: number[]
 }
 
 export default function TableItem(props: TableItemProps) {
@@ -25,6 +26,7 @@ export default function TableItem(props: TableItemProps) {
             {props.groups.map((group: Group, i: number) => {
                 return <td key={i} className={styles.body__item}>{group.hours[props.id]}</td>
             })}
+            <td className={styles.body__item}>{props.totalHoursByMonth[props.id]}</td>
         </tr>
     )
 }

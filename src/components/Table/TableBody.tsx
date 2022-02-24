@@ -1,54 +1,32 @@
 import styles from './Table.module.scss';
 import TableItem from './TableItem';
-import { Group } from '../../types/Teacher';
+import { Lesson, TeacherProps } from '../../types/Teacher';
 
 interface TableBodyProps {
-    currentMonth: number,
-    groups: Group[]
-    year: number,
+    teacherProps: TeacherProps,
+    lesson: Lesson,
 }
 
 export default function TableBody(props: TableBodyProps) {
-    // var months: string[] = [
-    //     "January", "February", "March",
-    //     "April", "May", "June",
-    //     "July", "August", "September",
-    //     "October", "November", "December"
-    // ]
-    var months: string[] = [
-        "Январь", "Февраль", "Март",
-        "Апрель", "Май", "Июнь",
-        "Июль", "Август", "Сентябрь",
-        "Октябрь", "Ноябрь", "Декабрь"
-    ]
-    var date = new Date();
+    const date = new Date();
 
     return (
         <tbody className={styles.body}>
-            {months.map((month: string, i: number) => {
-                if (props.year === date.getUTCFullYear() && i <= date.getUTCMonth()) {
+            {props.teacherProps.months.map((month: string, i: number) => {
+                const nowYear = props.teacherProps.year === date.getFullYear() && i <= date.getMonth() - 9;
+                const nextYear = props.teacherProps.year < date.getFullYear() && (i < 4 || i <= date.getMonth() + 4);
+                if (nowYear || nextYear) {
                     return (
                         <TableItem
-                            currentMonth={props.currentMonth}
-                            groups={props.groups}
+                            currentMonth={props.teacherProps.currentMonth}
+                            groups={props.lesson.groups}
                             key={i}
                             id={i}
                             month={month}
+                            totalHoursByMonth={props.lesson.totalHoursForMonth}
                         />
                     )
                 }
-                if (props.year !== date.getUTCFullYear()) {
-                    return (
-                        <TableItem
-                            currentMonth={props.currentMonth}
-                            groups={props.groups}
-                            key={i}
-                            id={i}
-                            month={month}
-                        />
-                    )
-                }
-                return <></>
             })}
         </tbody>
     )

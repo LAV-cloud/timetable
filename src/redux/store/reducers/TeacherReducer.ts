@@ -7,11 +7,7 @@ import {
 const initialState: TeacherState = {
   teacher: null,
   props: null,
-  loading: {
-    toggle: false,
-    progress: 0,
-    text: null,
-  },
+  loading: false,
   error: null,
 };
 
@@ -23,25 +19,25 @@ export const teacherReducer = (
     case TeacherActionType.startGenerate:
       return {
         ...state,
-        loading: { ...state.loading, toggle: true },
+        loading: true,
         teacher: action.payload,
       };
     case TeacherActionType.successGenerate:
       return {
         ...state,
-        loading: { ...state.loading, toggle: false },
+        loading: false,
         props: action.payload,
       };
     case TeacherActionType.failGenerate:
       return {
         ...state,
-        loading: { ...state.loading, toggle: false },
+        loading: false,
         error: action.payload,
       };
     case TeacherActionType.setProps:
       return { ...state, props: action.payload };
-    case TeacherActionType.setLoadingState:
-      return { ...state, loading: action.payload };
+    case TeacherActionType.removeTeacher:
+      return { ...state, props: null, teacher: null };
     default:
       return state;
   }

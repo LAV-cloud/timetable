@@ -7,6 +7,7 @@ import { RootState } from "./redux/store/reducers";
 import { useEffect } from 'react';
 import { NotificationType } from "./types/Notification";
 import { Loader } from './components/Loader/Loader';
+import ProgressBar from "./components/ProgressBar/ProgressBar";
 
 function TimeTableApp() {
   const { loading, error } = useTypedSelector((state: RootState) => state.teachers);
@@ -34,6 +35,7 @@ function TimeTableApp() {
         <List />
         <Space />
         <NotificationList />
+        <ProgressBar />
       </div>
     );
   }

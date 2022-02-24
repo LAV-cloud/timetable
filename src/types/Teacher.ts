@@ -1,14 +1,8 @@
 export interface TeacherState {
   teacher: Teacher | null;
   props: TeacherProps | null;
-  loading: TeacherLoading;
+  loading: boolean;
   error: null | string;
-}
-
-interface TeacherLoading {
-  toggle: boolean;
-  progress: number;
-  text: string | null;
 }
 
 export enum TeacherActionType {
@@ -16,12 +10,16 @@ export enum TeacherActionType {
   failGenerate = 'FAIL_GENERATE',
   startGenerate = 'START_GENERATE',
   setProps = 'SET_PROPS',
-  setLoadingState = 'SET_LOADING_STATE',
+  removeTeacher = 'REMOVE_TEACHER',
 }
 
 interface SuccessGenerate {
   type: TeacherActionType.successGenerate;
   payload: TeacherProps;
+}
+
+interface RemoveTeacher {
+  type: TeacherActionType.removeTeacher;
 }
 
 interface FailGenerate {
@@ -34,11 +32,6 @@ interface StartGenerate {
   payload: Teacher;
 }
 
-interface SetLoadingState {
-  type: TeacherActionType.setLoadingState;
-  payload: TeacherLoading;
-}
-
 interface SetProps {
   type: TeacherActionType.setProps;
   payload: TeacherProps;
@@ -49,7 +42,7 @@ export type TeacherAction =
   | SuccessGenerate
   | FailGenerate
   | SetProps
-  | SetLoadingState;
+  | RemoveTeacher;
 
 export interface TeachersState {
   teachers: Teacher[];
@@ -91,6 +84,7 @@ export interface Teacher {
 }
 
 export interface TeacherProps {
+  months: string[];
   lessons: Lesson[];
   year: number;
   currentMonth: number;
@@ -109,4 +103,5 @@ export interface Lesson {
   id: number;
   name: string;
   groups: Group[];
+  totalHoursForMonth: number[];
 }

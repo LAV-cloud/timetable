@@ -10,12 +10,13 @@ interface ItemProps {
 
 export default function ListItem(props: ItemProps) {
     const teacherState = useTypedSelector((state: RootState) => state.teacher);
-    const { generateTable } = useActions();
+    const { startLoading, generateTable } = useActions();
 
     return (
         <button
             onClick={() => {
-                if (!teacherState.loading.toggle) generateTable(props.teacher)
+                startLoading();
+                generateTable(props.teacher)
             }}
             className={teacherState.teacher?.id === props.teacher.id ?
                 [styles.item, styles.item_select].join(" ") : styles.item}

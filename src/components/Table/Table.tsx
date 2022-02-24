@@ -8,16 +8,19 @@ import { RootState } from '../../redux/store/reducers/index';
 
 export default function Table() {
     const { props } = useTypedSelector((state: RootState) => state.teacher);
-    const { lessons, currentLesson, currentMonth, year } = props!;
+    const { lessons, currentLesson } = props!;
 
-    return (
-        <div className={styles.timetable__body}>
-            <TableLessons />
-            <table className={styles.timetable__table} cellPadding={0} cellSpacing={5}>
-                <TableHeader groups={lessons[currentLesson].groups} />
-                <TableBody year={year} currentMonth={currentMonth} groups={lessons[currentLesson].groups} />
-                <TableFooter groups={lessons[currentLesson].groups} />
-            </table>
-        </div>
-    )
+    if (lessons.length) {
+        return (
+            <div className={styles.timetable__body}>
+                <TableLessons />
+                <table className={styles.timetable__table} cellPadding={0} cellSpacing={5}>
+                    <TableHeader groups={lessons[currentLesson].groups} />
+                    <TableBody teacherProps={props!} lesson={lessons[currentLesson]} />
+                    <TableFooter groups={lessons[currentLesson].groups} />
+                </table>
+            </div>
+        )
+    }
+    return <div className={styles.empty}>Ничего не найдено</div>
 }

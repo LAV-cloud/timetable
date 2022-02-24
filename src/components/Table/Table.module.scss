@@ -1,6 +1,15 @@
 @import '../../styles/scroll.scss';
 @import '../../styles/colors.scss';
 
+.empty {
+  height: 80vh;
+  width: 60vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: $second;
+}
+
 .timetable {
   &__lesson {
     height: 32px;
@@ -44,6 +53,9 @@
       border-radius: 20;
     }
   }
+  &__body {
+    height: 80vh;
+  }
   &__table {
     background-color: $first;
     padding: 20px;
@@ -64,9 +76,6 @@
 
 .body {
   &__row {
-    // &:hover {
-    //   background-color: $second;
-    // }
     &_select {
       background-color: $accent;
       & > .body__item:hover {

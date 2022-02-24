@@ -1,17 +1,18 @@
-import { exportData } from "../../functions/exportData";
+import { exportFile } from "../../functions/exportData";
 import { useTypedSelector } from "../../redux/hooks/useTypedSelector";
 import { RootState } from "../../redux/store/reducers";
 import styles from './Export.module.scss';
 
 export default function Export() {
-    const { props, teacher, loading } = useTypedSelector((state: RootState) => state.teacher);
+    const state = useTypedSelector((state: RootState) => state.teacher);
+    const { props, teacher, loading } = state;
     const filename = `${teacher!.secondName} ${teacher!.firstName[0]}.${teacher!.thirdName[0]}.`
 
     function exportToExcel() {
-        exportData(filename + props?.year, props!.lessons);
+        exportFile(filename + `${props?.year}-${props!.year + 1}`, state);
     }
 
-    if (!loading.toggle) {
+    if (!loading) {
         return (
             <div className={styles.export}>
                 <button

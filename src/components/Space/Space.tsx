@@ -1,6 +1,5 @@
 import styles from './Space.module.scss';
 import Export from '../Export/Export';
-import ProgressBar from '../ProgressBar/ProgressBar';
 import Table from '../Table/Table';
 import { useEffect } from 'react';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
@@ -12,17 +11,18 @@ export default function Space() {
     const { teacher, props, loading, error } = useTypedSelector((state: RootState) => state.teacher);
     const { addNotification, setProps, generateTable } = useActions();
 
-    useEffect(() => {
-        if (props && !loading.toggle) generateTable(teacher!, props!.year);
-    }, [props?.year])
+    // useEffect(() => {
+    //     if (props && !loading.toggle) generateTable(teacher!);
+    // }, [props?.year])
 
     useEffect(() => {
         if (error) addNotification(NotificationType.error, error);
     }, [error])
 
     function nextYear() {
-        if (!loading.toggle) {
-            if (props?.year === new Date().getFullYear()) {
+        if (!loading) {
+            const date = new Date();
+            if ((props!.year + 1) === date.getFullYear() && date.getMonth() < new Date(`1 Sep ${date.getFullYear()}`).getMonth()) {
                 addNotification(NotificationType.warning, "В будующее смотреть нельзя :(")
             } else {
                 setProps(props!.year + 1);
@@ -31,38 +31,33 @@ export default function Space() {
     }
 
     function prevYear() {
-        if (!loading.toggle) {
+        if (!loading) {
             if (props!.year === 2021) {
-                addNotification(NotificationType.warning, "Меня тогда ещё не было")
+                addNotification(NotificationType.warning, "API: Меня тогда ещё не было")
             } else {
                 setProps(props!.year - 1);
             }
         }
     }
 
-    if (props) {
+    if (teacher) {
         return (
             <div className={styles.space}>
                 <div className={styles.space__info}>
                     <h1 className={styles.space__title}>
-                        {teacher!.secondName + " "}
-                        {teacher!.firstName[0]}.
-                        {teacher!.thirdName[0]}.
+                        {teacher!.fullName}
                     </h1>
                     <Export />
                 </div>
-                <div className={styles.space__year}>
-                    <button onClick={() => prevYear()} className={styles.space__yearBtn}>{"<"}</button>
-                    <p>{props.year}</p>
-                    <button onClick={() => nextYear()} className={styles.space__yearBtn}>{">"}</button>
-                </div>
-                {loading.toggle ? (
-                    <div className={styles.loader}>
-                        <ProgressBar />
+                {props && (
+                    <div className={styles.space__year}>
+                        <button onClick={() => prevYear()} className={styles.space__yearBtn}>{"<"}</button>
+                        <p>{props.year} - {props.year + 1}</p>
+                        <button onClick={() => nextYear()} className={styles.space__yearBtn}>{">"}</button>
                     </div>
-                ) : (
-                    <Table />
                 )}
+                {!loading && <Table />}
+                <p className={styles.space__created}>Created by Бережной Роман для НКЭиВТ</p>
             </div>
         )
     }
@@ -70,6 +65,7 @@ export default function Space() {
     return (
         <div className={styles.empty}>
             <p>Выберите кого-нибудь из списка</p>
+            <p className={styles.space__created}>Created by Бережной Роман для НКЭиВТ</p>
         </div>
     )
 }

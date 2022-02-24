@@ -60,4 +60,12 @@
     background: 0 0;
     color: $accent;
   }
+  &__created {
+    transition: all 0.2s ease;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    white-space: nowrap;
+    color: $second;
+  }
 }
