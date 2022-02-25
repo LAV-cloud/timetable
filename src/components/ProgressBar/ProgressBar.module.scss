@@ -41,7 +41,7 @@
   }
   &__text {
     position: absolute;
-    top: calc(50% + 20px);
+    top: calc(50% + 5%);
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
@@ -51,7 +51,7 @@
   }
   &__stop {
     position: absolute;
-    top: calc(50% + 60px);
+    top: calc(50% + 10%);
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 5px 40px;

@@ -23,6 +23,7 @@ export default function ExportAll({ data }: ExportPropsType) {
     useEffect(() => {
         if (mode !== ExportMode.select) setExportSelectData(data);
         if (mode !== ExportMode.count) setExportCount(selectData.length);
+        if (mode === ExportMode.default) setExportCount(data.length);
     }, [])
 
     function toggle() {
@@ -37,7 +38,11 @@ export default function ExportAll({ data }: ExportPropsType) {
             if (i < count) {
                 const prop = await generateProps(item.id, year, i, count);
                 if (prop === undefined) return;
-                if (!prop.lessons.length) addNotification(NotificationType.warning, `${item.fullName} не будет в таблице т.к. нету курсов`);
+                if (!prop.lessons.length)
+                    addNotification(
+                        NotificationType.warning,
+                        `${item.fullName} не будет в таблице т.к. нету курсов`
+                    );
                 props.push(prop);
             }
         }));
@@ -62,7 +67,15 @@ export default function ExportAll({ data }: ExportPropsType) {
                     Экспортировать всё
                 </button>
                 {data.length > 0 && (
-                    <button className={open ? [styles.export__setting, styles.export__setting_open].join(" ") : styles.export__setting} onClick={() => toggle()}><BsGear /></button>
+                    <button
+                        className={open ?
+                            [styles.export__setting, styles.export__setting_open].join(" ") :
+                            styles.export__setting
+                        }
+                        onClick={() => toggle()}
+                    >
+                        <BsGear />
+                    </button>
                 )}
             </div>
         </>

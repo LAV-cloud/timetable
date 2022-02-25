@@ -54,6 +54,17 @@
     bottom: 20px;
     right: 20px;
     white-space: nowrap;
+    font-size: 0.8em;
     color: $second;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .space {
+    left: 20px;
+    width: 100vw;
+    &__title {
+      font-size: 18px;
+    }
   }
 }

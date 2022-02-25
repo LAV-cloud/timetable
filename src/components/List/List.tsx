@@ -10,6 +10,7 @@ import ExportAll from '../ExportAll/ExportAll';
 
 export default function List() {
     const [hide, setHide] = useState(false);
+    const [open, setOpen] = useState(false);
     const { teachers } = useTypedSelector((state: RootState) => state.teachers);
     const [data, setData] = useState<Teacher[]>(teachers);
 
@@ -31,27 +32,37 @@ export default function List() {
     }
 
     return (
-        <div className={styles.list}>
-            <button
-                onClick={() => setHide(true)}
-                className={styles.list__show}
-            >
-                Скрыть
+        <>
+            <button onClick={() => setOpen(true)} className={styles.menu}>
+                <span />
+                <span />
+                <span />
             </button>
-            <Search placeholder="Поиск..." data={teachers} getResult={(result: Teacher[]) => setData(result)} />
-            {data.length ? (
-                <>
-                    <div className={styles.list__items}>
-                        {data.map((teacher: Teacher, i: number) => {
-                            return <ListItem teacher={teacher} key={i} />
-                        })}
-                    </div>
-                    <p className={styles.list__count}>Кол-во: {data.length}</p>
-                    <ExportAll data={teachers} />
-                </>
-            ) : (
-                <div className={styles.list__notfound}>Ничего не найдено</div>
-            )}
-        </div>
+            <div className={open ? [styles.list_open, styles.list].join(" ") : styles.list}>
+                <button
+                    onClick={() => {
+                        if (open) setOpen(false);
+                        if (!open) setHide(true)
+                    }}
+                    className={styles.list__show}
+                >
+                    Скрыть
+                </button>
+                <Search placeholder="Поиск..." data={teachers} getResult={(result: Teacher[]) => setData(result)} />
+                {data.length ? (
+                    <>
+                        <div className={styles.list__items}>
+                            {data.map((teacher: Teacher, i: number) => {
+                                return <ListItem teacher={teacher} key={i} />
+                            })}
+                        </div>
+                        <p className={styles.list__count}>Кол-во: {data.length}</p>
+                        <ExportAll data={teachers} />
+                    </>
+                ) : (
+                    <div className={styles.list__notfound}>Ничего не найдено</div>
+                )}
+            </div>
+        </>
     )
 }

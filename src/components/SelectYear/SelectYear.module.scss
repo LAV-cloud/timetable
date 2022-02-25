@@ -3,6 +3,8 @@
 .year {
   display: flex;
   flex-direction: row;
+  align-items: center;
+  justify-content: center;
   background-color: $first;
   padding: 5px;
   border-radius: 4px;
@@ -16,5 +18,16 @@
     width: 20px;
     background: 0 0;
     color: $accent;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .year {
+    height: 20px;
+    font-size: 10px;
+    &__btn {
+      height: 20px;
+      width: 20px;
+    }
   }
 }

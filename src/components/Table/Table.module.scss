@@ -107,3 +107,29 @@
     padding: 10px 20px;
   }
 }
+
+@media screen and (max-width: 540px) {
+  .timetable {
+    &__lesson {
+      font-size: 12px;
+    }
+  }
+  .header {
+    &__item {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+  }
+  .body {
+    &__item {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+  }
+  .footer {
+    &__item {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
+  }
+}

@@ -17,6 +17,9 @@
     border: none;
     font-size: 0.8rem;
     outline: none;
+    white-space: nowrap;
+    padding: 0px 10px;
+    text-overflow: ellipsis;
     &_disabled {
       background-color: $bg;
     }
@@ -36,9 +39,12 @@
       font-size: 0.8rem;
     }
     &:hover,
-    &:active,
+    &:active {
+      color: white;
+    }
     &_open {
       color: white;
+      background-color: $bg;
     }
   }
 }
