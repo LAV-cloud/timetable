@@ -21,9 +21,9 @@ export const exportReducer = (
 ) => {
   switch (action.type) {
     case ExportActionType.setCount:
-      return { ...state, mode: ExportMode.count, count: action.payload };
+      return { ...state, count: action.payload };
     case ExportActionType.setData:
-      return { ...state, mode: ExportMode.select, selectData: action.payload };
+      return { ...state, selectData: action.payload };
     case ExportActionType.setFilename:
       return { ...state, filename: action.payload };
     case ExportActionType.setYear:
