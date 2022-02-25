@@ -23,10 +23,11 @@ const lessonTimeValue: number = 2;
 
 export const generateProps = async (
   teacherId: number,
-  id: number = 0,
-  count: number = 1
+  year: number,
+  id?: number,
+  count?: number
 ): Promise<TeacherProps | undefined> => {
-  const props: TeacherProps = createProps();
+  const props: TeacherProps = createProps(year);
   var weeks: Week[] = getWeeks(props.year);
   var nowMonth: number = 0;
   var i = 0;
@@ -44,7 +45,8 @@ export const generateProps = async (
       calculateTotalHoursForMonth(props, nowMonth);
       nowMonth = week.month;
     }
-    printPart(weeks.length * id + (i + 1), weeks.length * count);
+    if (id && count) printPart(i + 1, count);
+    if (!id) printPart(i + 1, weeks.length);
     i++;
   }
   return props;

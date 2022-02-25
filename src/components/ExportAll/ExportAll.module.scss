@@ -1,0 +1,141 @@
+@import '../../styles/colors.scss';
+@import '../../styles/scroll.scss';
+
+.export {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  &__btn {
+    background-color: $accent;
+    width: 80%;
+    height: 30px;
+    border-radius: 4px;
+    color: white;
+    border: none;
+    font-size: 0.8rem;
+    outline: none;
+    &_disabled {
+      background-color: $bg;
+    }
+  }
+  &__setting {
+    width: 30px;
+    height: 30px;
+    border-radius: 4px;
+    background-color: $second;
+    border: none;
+    color: $four;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    & svg {
+      font-size: 0.8rem;
+    }
+    &:hover,
+    &:active,
+    &_open {
+      color: white;
+    }
+  }
+}
+
+.setting {
+  width: 100%;
+  position: absolute;
+  bottom: 10vh;
+  background-color: $bg;
+  padding: 20px;
+  border-radius: 8px;
+  &__title {
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  @include scroll(6px, 400px, $second, inherit, 20px);
+  &__input {
+    width: 100%;
+    background: $first;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    height: 30px;
+    padding: 0px 10px;
+  }
+}
+
+.param {
+  margin-bottom: 15px;
+  &__title {
+    font-size: 0.8rem;
+    color: white;
+    margin-bottom: 5px;
+  }
+}
+
+.modes {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.mode {
+  width: 100%;
+  text-align: start;
+  padding: 5px 10px;
+  margin: 5px 0px;
+  background-color: $first;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  &_select {
+    background-color: $accent;
+  }
+  &_disabled {
+    opacity: 0.4;
+  }
+}
+
+.count {
+  margin-top: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  &__title {
+    font-size: 0.8rem;
+    color: white;
+  }
+  &__value {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    & p {
+      text-align: center;
+      width: 30px;
+      color: white;
+    }
+  }
+  &__btn {
+    width: 20px;
+    height: 20px;
+    background-color: $first;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 1rem;
+    margin: 0px 5px;
+  }
+}

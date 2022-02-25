@@ -4,18 +4,14 @@ import ListItem from './ListItem';
 import { useState, useEffect } from 'react';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { RootState } from '../../redux/store/reducers/index';
-import { Teacher, TeacherProps } from '../../types/Teacher';
+import { Teacher } from '../../types/Teacher';
 import { CgArrowRight } from 'react-icons/cg';
-import { generateProps } from '../../functions/generateProps';
-import { useActions } from '../../redux/hooks/useActions';
-import { exportData } from '../../functions/exportData';
-import { NotificationType } from '../../types/Notification';
+import ExportAll from '../ExportAll/ExportAll';
 
 export default function List() {
     const [hide, setHide] = useState(false);
     const { teachers } = useTypedSelector((state: RootState) => state.teachers);
     const [data, setData] = useState<Teacher[]>(teachers);
-    const { startLoading, finishLoading, addNotification } = useActions();
 
     useEffect(() => {
         setData(teachers);
@@ -32,26 +28,6 @@ export default function List() {
                 </button>
             </div>
         )
-    }
-
-    async function exportAll() {
-        startLoading();
-        var props: TeacherProps[] = [];
-        var stop: boolean = false;
-        for (let i = 0; i < teachers.length; i++) {
-            const prop = await generateProps(teachers[i].id, i, teachers.length);
-            if (prop === undefined) {
-                stop = true;
-                break;
-            }
-            if (!prop.lessons.length) addNotification(NotificationType.warning, `${teachers[i].fullName} не будет в таблице т.к. нету курсов`);
-            props.push(prop);
-        }
-        if (!stop) {
-            addNotification(NotificationType.success, `Успешный экспорт ${teachers.length} данных`);
-            if (props.length) exportData(`Data_${props[0].year}`, teachers, props);
-            finishLoading();
-        }
     }
 
     return (
@@ -71,7 +47,7 @@ export default function List() {
                         })}
                     </div>
                     <p className={styles.list__count}>Кол-во: {data.length}</p>
-                    <button className={styles.list__export} onClick={() => exportAll()}>Export all</button>
+                    <ExportAll data={teachers} />
                 </>
             ) : (
                 <div className={styles.list__notfound}>Ничего не найдено</div>

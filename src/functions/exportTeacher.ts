@@ -3,7 +3,10 @@ import { TeacherState, TeacherProps, Teacher } from '../types/Teacher';
 import ExcelJS, { Workbook } from 'exceljs';
 import { createWorkSheet } from './createWorkSheet';
 
-export const exportFile = async (filename: string, state: TeacherState) => {
+export const exportTeacherFile = async (
+  filename: string,
+  state: TeacherState
+) => {
   const fileType =
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
   const fileExtension = '.xlsx';
@@ -36,7 +39,7 @@ export const exportFile = async (filename: string, state: TeacherState) => {
   FileSaver.saveAs(data, filename + fileExtension);
 };
 
-export async function exportData(
+export async function exportTeachersData(
   filename: string,
   teachers: Teacher[],
   teachersProps: TeacherProps[]
@@ -47,9 +50,8 @@ export async function exportData(
 
   const workbook = createWorkBook('App');
   teachersProps.map((props: TeacherProps, i: number) => {
-    if (props.lessons.length) {
+    if (props.lessons.length)
       createWorkSheet(workbook, teachers[i].fullName, props, teachers[i]);
-    }
   });
   const buffer = await workbook.xlsx.writeBuffer();
   const data = new Blob([buffer], { type: fileType });

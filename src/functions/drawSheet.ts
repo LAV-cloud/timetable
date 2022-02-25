@@ -24,7 +24,7 @@ export function draw(
   drawGroups(worksheet, groups);
   drawHours(worksheet, props, hours, cols);
   drawTotal(worksheet, groups, cols);
-  drawOther(worksheet, groups);
+  drawOther(worksheet, groups, cols);
   for (let i = 1, pointId = 0; i <= cols; i++) {
     var col = worksheet.getColumn(i);
     var find: boolean = false;
@@ -247,7 +247,7 @@ function drawHours(
   }
 }
 
-function drawOther(worksheet: Worksheet, groups: string[]) {
+function drawOther(worksheet: Worksheet, groups: string[], cols: number) {
   const other: string[] = [
     'Всего часов по плану',
     'Минус 4% празничных',
@@ -265,6 +265,7 @@ function drawOther(worksheet: Worksheet, groups: string[]) {
       '',
     ]);
     otherRow.height = rowHeight;
+    var end: string = '';
     return otherRow.eachCell((cell, rowNumber) => {
       if (item === other[other.length - 1]) {
         cell.border = {
@@ -294,6 +295,14 @@ function drawOther(worksheet: Worksheet, groups: string[]) {
           horizontal: 'center',
           wrapText: true,
         };
+      }
+      if (cell.address === `${getAddress(cols - 1)}2${i + 1}`) {
+        cell.value = {
+          formula: `SUM(B2${i + 1}:${end})`,
+          date1904: false,
+        };
+      } else {
+        end = cell.address;
       }
     });
   });

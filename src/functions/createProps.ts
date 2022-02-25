@@ -33,7 +33,7 @@ interface ItemType {
 
 const lessonTimeValue: number = 2;
 
-export function createProps(): TeacherProps {
+export function createProps(year: number): TeacherProps {
   const date = new Date();
   const props: TeacherProps = {
     months: [
@@ -51,7 +51,7 @@ export function createProps(): TeacherProps {
       'Август',
     ],
     lessons: [],
-    year: date.getMonth() >= 9 ? date.getFullYear() : date.getFullYear() - 1,
+    year,
     currentMonth: 0,
     currentLesson: 0,
   };

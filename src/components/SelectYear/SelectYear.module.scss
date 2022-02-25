@@ -1,0 +1,20 @@
+@import '../../styles/colors.scss';
+
+.year {
+  display: flex;
+  flex-direction: row;
+  background-color: $first;
+  padding: 5px;
+  border-radius: 4px;
+  & > p {
+    color: white;
+    margin: 0px 5px;
+  }
+  &__btn {
+    border: none;
+    height: 20px;
+    width: 20px;
+    background: 0 0;
+    color: $accent;
+  }
+}

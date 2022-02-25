@@ -36,10 +36,15 @@ export const generateTable = (teacher: Teacher) => {
         payload: teacher,
       });
       console.log('TeacherId: ', teacher.id);
-      generateProps(teacher.id).then((props: TeacherProps | undefined) => {
-        if (!props) dispatch({ type: TeacherActionType.removeTeacher });
-        if (props) finishGenerate(dispatch, props);
-      });
+      const date = new Date();
+      const year =
+        date.getMonth() >= 8 ? date.getFullYear() : date.getFullYear() - 1;
+      generateProps(teacher.id, year).then(
+        (props: TeacherProps | undefined) => {
+          if (!props) dispatch({ type: TeacherActionType.removeTeacher });
+          if (props) finishGenerate(dispatch, props);
+        }
+      );
     } catch (e) {
       dispatch({
         type: TeacherActionType.failGenerate,
