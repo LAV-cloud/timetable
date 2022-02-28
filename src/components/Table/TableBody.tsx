@@ -14,7 +14,7 @@ export default function TableBody(props: TableBodyProps) {
         <tbody className={styles.body}>
             {props.teacherProps.months.map((month: string, i: number) => {
                 const nowYear = props.teacherProps.year === date.getFullYear() && i <= date.getMonth() - 9;
-                const nextYear = props.teacherProps.year < date.getFullYear() && (i < 4 || i <= date.getMonth() + 4);
+                const nextYear = props.teacherProps.year < date.getFullYear() && (i < 4 || i <= date.getMonth() + 5);
                 if (nowYear || nextYear) {
                     return (
                         <TableItem

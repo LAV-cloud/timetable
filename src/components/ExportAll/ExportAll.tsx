@@ -33,21 +33,16 @@ export default function ExportAll({ data }: ExportPropsType) {
 
     async function exportData() {
         startLoading();
-        var props: TeacherProps[] = [];
+        var props: { teacher: string, props: TeacherProps }[] = [];
         await Promise.all(selectData.map(async (item: Teacher, i: number) => {
             if (i < count) {
-                const prop = await generateProps(item.id, year, i, count);
+                const prop = await generateProps(item.id, year);
                 if (prop === undefined) return;
-                if (!prop.lessons.length)
-                    addNotification(
-                        NotificationType.warning,
-                        `${item.fullName} не будет в таблице т.к. нету курсов`
-                    );
-                props.push(prop);
+                props.push({ teacher: item.fullName, props: prop });
             }
         }));
         if (props.length) addNotification(NotificationType.success, `Успешный экспорт ${count} данных`);
-        if (props.length) exportTeachersData(filename, selectData, props);
+        if (props.length) await exportTeachersData(filename, props);
         finishLoading();
     }
 
@@ -58,7 +53,7 @@ export default function ExportAll({ data }: ExportPropsType) {
                 <button
                     disabled={!data.length}
                     className={
-                        data.length > 0 ?
+                        data.length ?
                             styles.export__btn :
                             [styles.export__btn, styles.export__btn_disabled].join(" ")
                     }

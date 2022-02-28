@@ -2,10 +2,15 @@ import { Teacher } from './Teacher';
 
 export interface Week {
   id: number;
+  days: Day[];
   month: number;
   year: number;
 }
 
+export interface Day {
+  id: number;
+  day: number;
+}
 interface MetaType {
   count: number;
   breakTime: number;

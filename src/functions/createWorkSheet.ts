@@ -1,12 +1,12 @@
 import { Workbook, Worksheet } from 'exceljs';
-import { Group, Lesson, Teacher, TeacherProps } from '../types/Teacher';
+import { Group, Lesson, TeacherProps } from '../types/Teacher';
 import { draw } from './drawSheet';
 
 export function createWorkSheet(
   workbook: Workbook,
   name: string,
   props: TeacherProps,
-  teacher: Teacher
+  teacher: string
 ) {
   var lessonNames: string = '';
   var lessons: string[] = [];

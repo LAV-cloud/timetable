@@ -3,7 +3,7 @@ import { Group, Lesson, TeacherProps } from '../types/Teacher';
 import { fetchData } from './fetch';
 import { LoaderActionType } from '../types/Loader';
 import { createGroup, createLesson, createProps } from './createProps';
-import { ItemType, Week, ResponseType } from '../types/Week';
+import { ItemType, Week, ResponseType, Day } from '../types/Week';
 
 declare global {
   interface Date {
@@ -28,7 +28,85 @@ export const generateProps = async (
   count?: number
 ): Promise<TeacherProps | undefined> => {
   const props: TeacherProps = createProps(year);
+  // console.log(new Date(2022, 1, 0).getWeek());
   var weeks: Week[] = getWeeks(props.year);
+  // var weeks: Week[] = [
+  // {
+  //   id: 53,
+  //   days: [
+  //     { id: 26, day: 0 },
+  //     { id: 27, day: 1 },
+  //     { id: 28, day: 2 },
+  //     { id: 29, day: 3 },
+  //     { id: 30, day: 4 },
+  //     { id: 31, day: 5 },
+  //   ],
+  //   month: 3,
+  //   year: 2021,
+  // },
+  // {
+  //   id: 1,
+  //   days: [{ id: 1, day: 6 }],
+  //   month: 4,
+  //   year: 2022,
+  // },
+  // {
+  //   id: 2,
+  //   days: [
+  //     { id: 2, day: 0 },
+  //     { id: 3, day: 1 },
+  //     { id: 4, day: 2 },
+  //     { id: 5, day: 3 },
+  //     { id: 6, day: 4 },
+  //     { id: 7, day: 5 },
+  //     { id: 8, day: 6 },
+  //   ],
+  //   month: 4,
+  //   year: 2022,
+  // },
+  // {
+  //   id: 3,
+  //   days: [
+  //     { id: 9, day: 0 },
+  //     { id: 10, day: 1 },
+  //     { id: 11, day: 2 },
+  //     { id: 12, day: 3 },
+  //     { id: 13, day: 4 },
+  //     { id: 14, day: 5 },
+  //     { id: 15, day: 6 },
+  //   ],
+  //   month: 4,
+  //   year: 2022,
+  // },
+  // {
+  //   id: 4,
+  //   days: [
+  //     { id: 16, day: 0 },
+  //     { id: 17, day: 1 },
+  //     { id: 18, day: 2 },
+  //     { id: 19, day: 3 },
+  //     { id: 20, day: 4 },
+  //     { id: 21, day: 5 },
+  //     { id: 22, day: 6 },
+  //   ],
+  //   month: 4,
+  //   year: 2022,
+  // },
+  // {
+  //   id: 5,
+  //   days: [
+  //     { id: 23, day: 0 },
+  //     { id: 24, day: 1 },
+  //     { id: 25, day: 2 },
+  //     { id: 26, day: 3 },
+  //     { id: 27, day: 4 },
+  //     { id: 28, day: 5 },
+  //     { id: 29, day: 6 },
+  //   ],
+  //   month: 4,
+  //   year: 2022,
+  // },
+  // ];
   var nowMonth: number = 0;
   var i = 0;
   for (let week of weeks) {
@@ -36,7 +114,9 @@ export const generateProps = async (
     const url = `schedule/subject/${week.year}/${week.id}?accountId=${teacherId}`;
     const response: ResponseType = await fetchData(url);
     response.data.items.map((item: ItemType) => {
-      calculatePart(item, props, week.month);
+      if (week.days.filter((day) => day.day === item.day).length) {
+        calculatePart(item, props, week.month);
+      }
       return item;
     });
     if (week.id === weeks[weeks.length - 1].id) {
@@ -54,49 +134,29 @@ export const generateProps = async (
 
 function getWeeks(year: number): Week[] {
   const weeks: Week[] = [];
-  const date: Date = new Date();
-  const months: { date: Date; id: number }[] = getMonths(year);
-  var startDate: { date: Date; id: number } = {
-    date: new Date(`1 Sep ${year}`),
-    id: 0,
-  };
-  months.map((nextMonth: { date: Date; id: number }, i: number) => {
+  for (let i = 0, month = 8; i < 12; i++) {
+    const lastMonthDay = new Date(year, month + 1, 0).getDate();
     for (
-      let week = startDate.date.getWeek();
-      week < nextMonth.date.getWeek();
-      week++
+      let day: number = 1, week: number = 0, days: Day[] = [];
+      day <= lastMonthDay;
+      day++
     ) {
-      if (
-        year < date.getFullYear() ||
-        (year === date.getFullYear() &&
-          startDate.date.getMonth() <= date.getMonth())
-      )
-        weeks.push({ id: week, month: startDate.id, year });
+      if (week !== new Date(year, month, day).getWeek()) {
+        if (week !== 0) weeks.push({ id: week - 1, days, month: i, year });
+        days = [];
+        week = new Date(year, month, day).getWeek();
+      }
+      days.push({ id: day, day: new Date(year, month, day).getDay() });
+      if (day === lastMonthDay && days.length)
+        weeks.push({ id: week - 1, days, month: i, year });
     }
-    startDate = nextMonth;
-    if (i === 3) year++;
-    return nextMonth;
-  });
-
+    month++;
+    if (i === 3) {
+      year++;
+      month = 0;
+    }
+  }
   return weeks;
-}
-
-function getMonths(year: number): { date: Date; id: number }[] {
-  return [
-    { date: new Date(`1 Oct ${year}`), id: 1 },
-    { date: new Date(`1 Nov ${year}`), id: 2 },
-    { date: new Date(`1 Dec ${year}`), id: 3 },
-    { date: new Date(`31 Dec ${year}`), id: 3 },
-    { date: new Date(`1 Jan ${year}`), id: 4 },
-    { date: new Date(`1 Feb ${year}`), id: 5 },
-    { date: new Date(`1 Mar ${year}`), id: 6 },
-    { date: new Date(`1 Apr ${year}`), id: 7 },
-    { date: new Date(`1 May ${year}`), id: 8 },
-    { date: new Date(`1 Jun ${year}`), id: 9 },
-    { date: new Date(`1 Jul ${year}`), id: 10 },
-    { date: new Date(`1 Aug ${year}`), id: 11 },
-    { date: new Date(`31 Aug ${year}`), id: 11 },
-  ];
 }
 
 function calculatePart(

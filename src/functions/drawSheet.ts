@@ -1,12 +1,12 @@
 import { Worksheet } from 'exceljs';
-import { Teacher, TeacherProps } from '../types/Teacher';
+import { TeacherProps } from '../types/Teacher';
 
 const rowHeight = 24;
 const colWidth = 10;
 
 export function draw(
   worksheet: Worksheet,
-  teacher: Teacher,
+  teacher: string,
   lessonNames: string,
   groups: string[],
   lessons: string[],
@@ -51,9 +51,9 @@ export function draw(
   }
 }
 
-function drawName(worksheet: Worksheet, teacher: Teacher, cols: number) {
+function drawName(worksheet: Worksheet, teacher: string, cols: number) {
   worksheet
-    .addRow([`Фамилия преподавателя ${teacher.fullName}`])
+    .addRow([`Фамилия преподавателя ${teacher}`])
     .eachCell({ includeEmpty: true }, function (cell) {
       worksheet.mergeCells(`A2:${getAddress(cols)}2`);
     });

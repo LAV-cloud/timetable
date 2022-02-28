@@ -1,5 +1,5 @@
-import * as FileSaver from 'file-saver';
-import { TeacherState, TeacherProps, Teacher } from '../types/Teacher';
+import { saveAs } from 'file-saver';
+import { TeacherState, TeacherProps } from '../types/Teacher';
 import ExcelJS, { Workbook } from 'exceljs';
 import { createWorkSheet } from './createWorkSheet';
 
@@ -7,55 +7,29 @@ export const exportTeacherFile = async (
   filename: string,
   state: TeacherState
 ) => {
-  const fileType =
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-  const fileExtension = '.xlsx';
-
-  const workbook = new ExcelJS.Workbook();
-  workbook.creator = 'App';
-  workbook.lastModifiedBy = 'App';
-  workbook.created = new Date();
-  workbook.modified = new Date();
-  workbook.lastPrinted = new Date();
-  workbook.views = [
-    {
-      x: 0,
-      y: 0,
-      width: 200,
-      height: 200,
-      firstSheet: 0,
-      activeTab: 1,
-      visibility: 'visible',
-    },
-  ];
+  const workbook = createWorkBook();
   createWorkSheet(
     workbook,
     state.teacher!.fullName,
     state.props!,
-    state.teacher!
+    state.teacher!.fullName
   );
   const buffer = await workbook.xlsx.writeBuffer();
-  const data = new Blob([buffer], { type: fileType });
-  FileSaver.saveAs(data, filename + fileExtension);
+  saveFile(filename, buffer);
 };
 
 export async function exportTeachersData(
   filename: string,
-  teachers: Teacher[],
-  teachersProps: TeacherProps[]
+  teachersProps: { teacher: string; props: TeacherProps }[]
 ) {
-  const fileType =
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
-  const fileExtension = '.xlsx';
-
-  const workbook = createWorkBook('App');
-  teachersProps.map((props: TeacherProps, i: number) => {
-    if (props.lessons.length)
-      createWorkSheet(workbook, teachers[i].fullName, props, teachers[i]);
+  const workbook = createWorkBook();
+  teachersProps.map((prop) => {
+    if (prop.props.lessons.length)
+      createWorkSheet(workbook, prop.teacher, prop.props, prop.teacher);
+    return prop;
   });
   const buffer = await workbook.xlsx.writeBuffer();
-  const data = new Blob([buffer], { type: fileType });
-  FileSaver.saveAs(data, filename + fileExtension);
+  saveFile(filename, buffer);
 }
 
 function createWorkBook(name: string = 'App'): Workbook {
@@ -77,4 +51,12 @@ function createWorkBook(name: string = 'App'): Workbook {
     },
   ];
   return workbook;
+}
+
+function saveFile(filename: string, buffer: ExcelJS.Buffer) {
+  const fileType =
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+  const fileExtension = '.xlsx';
+  const data = new Blob([buffer], { type: fileType });
+  saveAs(data, filename + fileExtension);
 }

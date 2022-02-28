@@ -22,6 +22,10 @@
     text-overflow: ellipsis;
     &_disabled {
       background-color: $bg;
+      opacity: 0.6;
+      &:hover {
+        cursor: default;
+      }
     }
   }
   &__setting {
