@@ -1,24 +1,23 @@
 import styles from './ExportAll.module.scss';
 import { useActions } from '../../redux/hooks/useActions';
-import { exportTeachersData } from '../../functions/exportTeacher';
-import { NotificationType } from '../../types/Notification';
-import { generateProps } from '../../functions/generateProps';
-import { Teacher, TeacherProps } from '../../types/Teacher';
 import { BsGear } from 'react-icons/bs';
 import { useState, useEffect } from 'react';
 import ExportAllSetting from './ExportAllSetting';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { RootState } from '../../redux/store/reducers/index';
 import { ExportMode } from '../../types/Export';
+import { Group } from '../../types/Group';
+import { Teacher } from '../../types/Teacher';
+import { exportAllData } from '../../functions/exportAll';
 
 interface ExportPropsType {
-    data: Teacher[],
+    data: Teacher[] | Group[],
 }
 
 export default function ExportAll({ data }: ExportPropsType) {
-    const { startLoading, finishLoading, addNotification, setExportSelectData, setExportCount } = useActions();
+    const { setExportSelectData, setExportCount } = useActions();
     const [open, setOpen] = useState<boolean>(false);
-    const { count, year, selectData, filename, mode } = useTypedSelector((state: RootState) => state.exportSetting);
+    const { selectData, mode } = useTypedSelector((state: RootState) => state.exportSetting);
 
     useEffect(() => {
         if (mode !== ExportMode.select) setExportSelectData(data);
@@ -29,21 +28,6 @@ export default function ExportAll({ data }: ExportPropsType) {
     function toggle() {
         const nowState = open;
         setOpen(!nowState);
-    }
-
-    async function exportData() {
-        startLoading();
-        var props: { teacher: string, props: TeacherProps }[] = [];
-        await Promise.all(selectData.map(async (item: Teacher, i: number) => {
-            if (i < count) {
-                const prop = await generateProps(item.id, year);
-                if (prop === undefined) return;
-                props.push({ teacher: item.fullName, props: prop });
-            }
-        }));
-        if (props.length) addNotification(NotificationType.success, `Успешный экспорт ${count} данных`);
-        if (props.length) await exportTeachersData(filename, props);
-        finishLoading();
     }
 
     return (
@@ -57,7 +41,7 @@ export default function ExportAll({ data }: ExportPropsType) {
                             styles.export__btn :
                             [styles.export__btn, styles.export__btn_disabled].join(" ")
                     }
-                    onClick={() => exportData()
+                    onClick={() => exportAllData(selectData)
                     }>
                     Экспортировать всё
                 </button>

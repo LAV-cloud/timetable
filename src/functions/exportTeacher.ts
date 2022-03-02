@@ -1,18 +1,18 @@
 import { saveAs } from 'file-saver';
-import { TeacherState, TeacherProps } from '../types/Teacher';
+import { TeacherProps } from '../types/Teacher';
 import ExcelJS, { Workbook } from 'exceljs';
 import { createWorkSheet } from './createWorkSheet';
 
 export const exportTeacherFile = async (
   filename: string,
-  state: TeacherState
+  props: TeacherProps
 ) => {
   const workbook = createWorkBook();
   createWorkSheet(
     workbook,
-    state.teacher!.fullName,
-    state.props!,
-    state.teacher!.fullName
+    props.teacher!.fullName,
+    props,
+    props.teacher!.fullName
   );
   const buffer = await workbook.xlsx.writeBuffer();
   saveFile(filename, buffer);
@@ -20,12 +20,17 @@ export const exportTeacherFile = async (
 
 export async function exportTeachersData(
   filename: string,
-  teachersProps: { teacher: string; props: TeacherProps }[]
+  teachersProps: TeacherProps[]
 ) {
   const workbook = createWorkBook();
   teachersProps.map((prop) => {
-    if (prop.props.lessons.length)
-      createWorkSheet(workbook, prop.teacher, prop.props, prop.teacher);
+    if (prop.lessons.length)
+      createWorkSheet(
+        workbook,
+        prop.teacher.fullName,
+        prop,
+        prop.teacher.fullName
+      );
     return prop;
   });
   const buffer = await workbook.xlsx.writeBuffer();

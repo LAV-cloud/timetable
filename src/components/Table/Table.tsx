@@ -3,24 +3,50 @@ import TableHeader from './TableHeader';
 import TableBody from './TableBody';
 import TableFooter from './TableFooter';
 import TableLessons from './TableLessons';
-import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
-import { RootState } from '../../redux/store/reducers/index';
 
-export default function Table() {
-    const { props } = useTypedSelector((state: RootState) => state.teacher);
-    const { lessons, currentLesson } = props!;
+interface TableTabType {
+    id: number,
+    name: string,
+}
 
-    if (lessons.length) {
+interface TableRowType {
+    id: number
+    name: string
+}
+
+interface TableColType {
+    id: number,
+    name: string,
+}
+
+interface TablePropsType {
+    tabs: TableTabType[]
+    rows: TableRowType[]
+    cols: TableColType[]
+    year: number,
+    selectTabId: number
+    selectRowId: number,
+    hours: number[][]
+}
+
+export default function Table(props: TablePropsType) {
+    if (props) {
         return (
             <div className={styles.timetable__body}>
-                <TableLessons />
+                <TableLessons selectTabId={props.selectTabId} tabs={props.tabs} />
                 <table className={styles.timetable__table} cellPadding={0} cellSpacing={5}>
-                    <TableHeader groups={lessons[currentLesson].groups} />
-                    <TableBody teacherProps={props!} lesson={lessons[currentLesson]} />
-                    <TableFooter groups={lessons[currentLesson].groups} />
+                    <TableHeader cols={props.cols} />
+                    <TableBody
+                        hours={props.hours}
+                        cols={props.cols.map((col => col.id))} selectRowId={props.selectRowId}
+                        year={props.year}
+                        rows={props.rows}
+                    />
+                    <TableFooter hours={props.hours} cols={props.cols} rows={props.rows} />
                 </table>
             </div>
         )
     }
+
     return <div className={styles.empty}>Ничего не найдено</div>
 }

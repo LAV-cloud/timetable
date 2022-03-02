@@ -1,32 +1,39 @@
 import styles from './Table.module.scss';
 import { useActions } from '../../redux/hooks/useActions';
-import { Group } from '../../types/Teacher';
 
 interface TableItemProps {
-    id: number,
-    currentMonth: number,
-    groups: Group[],
-    month: string
-    totalHoursByMonth: number[]
+    selectRowId: number,
+    row: { id: number, name: string },
+    hours: number[],
+    cols: number[]
 }
 
 export default function TableItem(props: TableItemProps) {
     var { setProps } = useActions();
 
+    function sum(hours: number[]): number {
+        var result: number = 0;
+        hours.map((hour: number) => {
+            result += hour;
+            return hour;
+        })
+        return result;
+    }
+
     return (
         <tr
-            onClick={() => setProps(undefined, props.id, undefined)}
+            onClick={() => setProps(undefined, props.row.id, undefined)}
             className={
-                props.id === props.currentMonth ?
+                props.row.id === props.selectRowId ?
                     [styles.body__row, styles.body__row_select].join(" ") :
                     styles.body__row
             }
         >
-            <td className={styles.body__item}>{props.month}</td>
-            {props.groups.map((group: Group, i: number) => {
-                return <td key={i} className={styles.body__item}>{group.hours[props.id]}</td>
+            <td className={styles.body__item}>{props.row.name}</td>
+            {props.cols.map((col: number, i: number) => {
+                return <td key={i} className={styles.body__item}>{props.hours[col]}</td>
             })}
-            <td className={styles.body__item}>{props.totalHoursByMonth[props.id]}</td>
+            <td className={styles.body__item}>{sum(props.hours)}</td>
         </tr>
     )
 }

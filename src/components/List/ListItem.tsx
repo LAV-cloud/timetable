@@ -1,27 +1,27 @@
 import { useActions } from '../../redux/hooks/useActions';
-import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
-import { RootState } from '../../redux/store/reducers';
+import { Group } from '../../types/Group';
 import { Teacher } from '../../types/Teacher';
 import styles from './List.module.scss';
 
 interface ItemProps {
-    teacher: Teacher,
+    selectId: number,
+    text: string,
+    item: Teacher | Group,
 }
 
 export default function ListItem(props: ItemProps) {
-    const teacherState = useTypedSelector((state: RootState) => state.teacher);
     const { startLoading, generateTable } = useActions();
 
     return (
         <button
             onClick={() => {
                 startLoading();
-                generateTable(props.teacher)
+                generateTable(props.item)
             }}
-            className={teacherState.teacher?.id === props.teacher.id ?
+            className={props.selectId === props.item.id ?
                 [styles.item, styles.item_select].join(" ") : styles.item}
         >
-            {props.teacher.fullName}
+            {props.text}
         </button>
     )
 }

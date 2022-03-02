@@ -10,12 +10,12 @@ import { Loader } from './components/Loader/Loader';
 import ProgressBar from "./components/ProgressBar/ProgressBar";
 
 function TimeTableApp() {
-  const { loading, error } = useTypedSelector((state: RootState) => state.teachers);
-  const { fetchTeachers, addNotification } = useActions();
+  const { loading, error, data, dataType } = useTypedSelector((state: RootState) => state.data);
+  const { fetchDataApp, addNotification } = useActions();
 
   useEffect(() => {
-    fetchTeachers();
-  }, [])
+    fetchDataApp();
+  }, [dataType])
 
   useEffect(() => {
     if (error) addNotification(NotificationType.error, error);
@@ -29,7 +29,7 @@ function TimeTableApp() {
     )
   }
 
-  if (!error) {
+  if (data) {
     return (
       <div className="content">
         <List />

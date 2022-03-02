@@ -4,19 +4,22 @@ import ListItem from './ListItem';
 import { useState, useEffect } from 'react';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { RootState } from '../../redux/store/reducers/index';
-import { Teacher } from '../../types/Teacher';
 import { CgArrowRight } from 'react-icons/cg';
 import ExportAll from '../ExportAll/ExportAll';
+import { Group, GroupProps } from '../../types/Group';
+import { Teacher, TeacherProps } from '../../types/Teacher';
+import { DataType } from '../../types/Data';
+import { useActions } from '../../redux/hooks/useActions';
 
 export default function List() {
-    const [hide, setHide] = useState(false);
-    const [open, setOpen] = useState(false);
-    const { teachers } = useTypedSelector((state: RootState) => state.teachers);
-    const [data, setData] = useState<Teacher[]>(teachers);
+    var [hide, setHide] = useState(false);
+    var [open, setOpen] = useState(false);
+    var { data } = useTypedSelector((state: RootState) => state.data);
+    var [nowData, setNowData] = useState<Teacher[] | Group[]>(data);
 
     useEffect(() => {
-        setData(teachers);
-    }, [teachers])
+        setNowData(data);
+    }, [data])
 
     if (hide) {
         return (
@@ -33,6 +36,7 @@ export default function List() {
 
     return (
         <>
+            {!hide && <div className={styles.invisibleComponent}></div>}
             <button onClick={() => setOpen(true)} className={styles.menu}>
                 <span />
                 <span />
@@ -48,16 +52,13 @@ export default function List() {
                 >
                     Скрыть
                 </button>
-                <Search placeholder="Поиск..." data={teachers} getResult={(result: Teacher[]) => setData(result)} />
-                {data.length ? (
+                <DataMode />
+                <Search placeholder="Поиск..." data={data} getResult={(result: Teacher[]) => setNowData(result)} />
+                {nowData.length ? (
                     <>
-                        <div className={styles.list__items}>
-                            {data.map((teacher: Teacher, i: number) => {
-                                return <ListItem teacher={teacher} key={i} />
-                            })}
-                        </div>
-                        <p className={styles.list__count}>Кол-во: {data.length}</p>
-                        <ExportAll data={teachers} />
+                        <ListItems nowData={nowData} />
+                        <p className={styles.list__count}>Кол-во: {nowData.length}</p>
+                        <ExportAll data={data} />
                     </>
                 ) : (
                     <div className={styles.list__notfound}>Ничего не найдено</div>
@@ -65,4 +66,54 @@ export default function List() {
             </div>
         </>
     )
+}
+
+function DataMode() {
+    const { dataType } = useTypedSelector((state: RootState) => state.data);
+    const { setDataType } = useActions();
+
+    return (
+        <div className={styles.list__modes}>
+            <button onClick={() => setDataType(DataType.teachers)} className={dataType === DataType.teachers ? [styles.list__mode, styles.list__mode_select].join(" ") : styles.list__mode}>{DataType.teachers}</button>
+            <button onClick={() => setDataType(DataType.groups)} className={dataType === DataType.groups ? [styles.list__mode, styles.list__mode_select].join(" ") : styles.list__mode}>{DataType.groups}</button>
+        </div>
+    )
+}
+
+function ListItems({ nowData }: { nowData: Teacher[] | Group[] }) {
+    var { dataType } = useTypedSelector((state: RootState) => state.data);
+    var { props } = useTypedSelector((state: RootState) => state.item);
+
+    switch (dataType) {
+        case DataType.groups:
+            nowData = nowData as Group[];
+            return (
+                <div className={styles.list__items}>
+                    {nowData.map((item: Group, i: number) => {
+                        props = props as GroupProps;
+                        return <ListItem
+                            key={i}
+                            item={item}
+                            text={item.print}
+                            selectId={props?.group.id}
+                        />
+                    })}
+                </div>
+            );
+        case DataType.teachers:
+            nowData = nowData as Teacher[];
+            return (
+                <div className={styles.list__items}>
+                    {nowData.map((item: Teacher, i: number) => {
+                        props = props as TeacherProps;
+                        return <ListItem
+                            text={item.fullName}
+                            item={item}
+                            key={i}
+                            selectId={props?.teacher.id}
+                        />
+                    })}
+                </div>
+            );
+    }
 }

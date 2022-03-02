@@ -5,6 +5,7 @@ import {
 } from '../../../types/Export';
 import { Dispatch } from 'redux';
 import { Teacher } from '../../../types/Teacher';
+import { Group } from '../../../types/Group';
 
 export function setExportCount(count: number) {
   return (dispatch: Dispatch<ExportAction>) => {
@@ -33,7 +34,7 @@ export function setExportYear(year: number) {
   };
 }
 
-export function setExportSelectData(data: Teacher[]) {
+export function setExportSelectData(data: Teacher[] | Group[]) {
   return (dispatch: Dispatch<ExportAction>) => {
     dispatch({
       type: ExportActionType.setData,

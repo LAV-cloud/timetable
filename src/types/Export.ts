@@ -1,10 +1,11 @@
 import { Teacher } from './Teacher';
+import { Group } from './Group';
 
 export interface ExportState {
   count: number;
   filename: string;
   year: number;
-  selectData: Teacher[];
+  selectData: Teacher[] | Group[];
   mode: ExportMode;
 }
 
@@ -38,7 +39,7 @@ interface SetExportYear {
 
 interface SetExportData {
   type: ExportActionType.setData;
-  payload: Teacher[];
+  payload: Teacher[] | Group[];
 }
 
 export type ExportAction =

@@ -1,32 +1,40 @@
+import React from 'react';
 import styles from './Table.module.scss';
 import TableItem from './TableItem';
-import { Lesson, TeacherProps } from '../../types/Teacher';
+
+interface RowType {
+    id: number,
+    name: string
+}
 
 interface TableBodyProps {
-    teacherProps: TeacherProps,
-    lesson: Lesson,
+    rows: RowType[];
+    year: number
+    selectRowId: number
+    cols: number[],
+    hours: number[][],
 }
 
 export default function TableBody(props: TableBodyProps) {
-    const date = new Date();
 
     return (
         <tbody className={styles.body}>
-            {props.teacherProps.months.map((month: string, i: number) => {
-                const nowYear = props.teacherProps.year === date.getFullYear() && i <= date.getMonth() - 9;
-                const nextYear = props.teacherProps.year < date.getFullYear() && (i < 4 || i <= date.getMonth() + 5);
+            {props.rows.map((row: RowType, i: number) => {
+                const date = new Date();
+                const nowYear = props.year === date.getFullYear() && i <= date.getMonth() - 9;
+                const nextYear = props.year < date.getFullYear() && (i < 4 || i <= date.getMonth() + 5);
                 if (nowYear || nextYear) {
                     return (
                         <TableItem
-                            currentMonth={props.teacherProps.currentMonth}
-                            groups={props.lesson.groups}
+                            selectRowId={props.selectRowId}
                             key={i}
-                            id={i}
-                            month={month}
-                            totalHoursByMonth={props.lesson.totalHoursForMonth}
+                            row={row}
+                            cols={props.cols}
+                            hours={props.hours[row.id]}
                         />
                     )
                 }
+                <React.Fragment key={i} />
             })}
         </tbody>
     )

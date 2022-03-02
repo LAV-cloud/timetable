@@ -65,16 +65,16 @@ function ExportAllMode(props: ExportModePropsType) {
 }
 
 function ExportAllCount() {
-    const { teachers } = useTypedSelector((state: RootState) => state.teachers);
+    const { data } = useTypedSelector((state: RootState) => state.data);
     const { count } = useTypedSelector((state: RootState) => state.exportSetting);
     const { setExportCount } = useActions();
 
     useEffect(() => {
-        setExportCount(teachers.length);
+        setExportCount(data.length);
     }, [])
 
     function increaseCount() {
-        if (count < teachers.length) {
+        if (count < data.length) {
             setExportCount(count + 1);
         }
     }
