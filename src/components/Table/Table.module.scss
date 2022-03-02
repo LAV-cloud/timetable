@@ -55,6 +55,7 @@
   }
   &__body {
     height: 80vh;
+    overflow: auto;
   }
   &__table {
     background-color: $first;

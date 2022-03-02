@@ -31,6 +31,7 @@ async function generateTeacherProps(teacher: Teacher, year: number) {
   var nowMonth: number = 0;
   var i = 0;
   for (let week of weeks) {
+    if (!store.getState().loader.loading) return;
     await calculateTeacher(
       nowMonth,
       week,
@@ -59,6 +60,7 @@ async function generateGroupProps(group: Group, year: number) {
     }
   }
   for (let week of weeks) {
+    if (!store.getState().loader.loading) return;
     await calculateGroup(week, group, props);
     printPart(i + 1, weeks.length);
     i++;

@@ -14,7 +14,6 @@ export async function calculateTeacher(
   props: TeacherProps,
   lastId: number
 ) {
-  if (!store.getState().loader.loading) return;
   const url = `schedule/subject/${week.year}/${week.id}?accountId=${teacher.id}`;
   const response: ResponseType = await fetchData(url);
   response.data.items.map((item: ItemType) => {

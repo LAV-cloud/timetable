@@ -27,7 +27,7 @@
 .space {
   position: relative;
   left: 50px;
-  width: 100vw;
+  max-width: 100vw;
   padding: 40px;
   overflow: auto;
   &__title {

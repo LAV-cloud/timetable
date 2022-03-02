@@ -1,9 +1,8 @@
-import { Week, Day } from '../types/Week';
+import { Week } from '../types/Week';
 import { Group, GroupProps, Lesson } from '../types/Group';
 import { fetchData } from './fetch';
 import { ItemType } from '../types/ScheduleSubjectResponse';
 import { ResponseType } from '../types/ScheduleSubjectResponse';
-import { store } from '../redux/store';
 
 const lessonTimeValue: number = 2;
 
@@ -12,7 +11,6 @@ export async function calculateGroup(
   group: Group,
   props: GroupProps
 ) {
-  if (!store.getState().loader.loading) return;
   const url = `schedule/subject/${week.year}/${week.id}?groupId=${group.id}`;
   const response: ResponseType = await fetchData(url);
   response.data.items.map((item: ItemType) => {
