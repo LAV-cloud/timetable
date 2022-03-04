@@ -18,6 +18,7 @@ export default function ExportAll({ data }: ExportPropsType) {
     const { setExportSelectData, setExportCount } = useActions();
     const [open, setOpen] = useState<boolean>(false);
     const { selectData, mode } = useTypedSelector((state: RootState) => state.exportSetting);
+    var { dataType, typeSetting } = useTypedSelector((state: RootState) => state.config);
 
     useEffect(() => {
         if (mode !== ExportMode.select) setExportSelectData(data);
@@ -30,33 +31,36 @@ export default function ExportAll({ data }: ExportPropsType) {
         setOpen(!nowState);
     }
 
-    return (
-        <>
-            {open && <ExportAllSetting />}
-            <div className={styles.export}>
-                <button
-                    disabled={!data.length}
-                    className={
-                        data.length ?
-                            styles.export__btn :
-                            [styles.export__btn, styles.export__btn_disabled].join(" ")
-                    }
-                    onClick={() => exportAllData(selectData)
-                    }>
-                    Экспортировать всё
-                </button>
-                {data.length > 0 && (
+    if (typeSetting[dataType].exportAll) {
+        return (
+            <>
+                {open && <ExportAllSetting />}
+                <div className={styles.export}>
                     <button
-                        className={open ?
-                            [styles.export__setting, styles.export__setting_open].join(" ") :
-                            styles.export__setting
+                        disabled={!data.length}
+                        className={
+                            data.length ?
+                                styles.export__btn :
+                                [styles.export__btn, styles.export__btn_disabled].join(" ")
                         }
-                        onClick={() => toggle()}
-                    >
-                        <BsGear />
+                        onClick={() => exportAllData(selectData)
+                        }>
+                        Экспортировать всё
                     </button>
-                )}
-            </div>
-        </>
-    )
+                    {data.length > 0 && (
+                        <button
+                            className={open ?
+                                [styles.export__setting, styles.export__setting_open].join(" ") :
+                                styles.export__setting
+                            }
+                            onClick={() => toggle()}
+                        >
+                            <BsGear />
+                        </button>
+                    )}
+                </div>
+            </>
+        )
+    }
+    return <></>
 }

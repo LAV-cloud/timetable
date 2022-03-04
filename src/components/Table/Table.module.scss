@@ -82,6 +82,9 @@
       & > .body__item:hover {
         background-color: inherit;
       }
+      & > .body__item {
+        background-color: inherit;
+      }
       &:hover {
         background-color: $accent;
       }
@@ -89,12 +92,22 @@
   }
   &__item {
     transition: all 0.2s ease;
-    padding: 10px 20px;
+    padding: 10px;
     font-size: 16px;
     border-radius: 4px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    background-color: $second;
     &:hover {
       cursor: pointer;
-      background-color: $four;
+      background-color: $third;
+    }
+    &_empty {
+      background-color: $bg;
+      &:hover {
+        cursor: default;
+        background-color: $bg;
+      }
     }
   }
 }

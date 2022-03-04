@@ -5,8 +5,8 @@ import { useEffect } from 'react';
 import { Teacher } from '../../types/Teacher';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { RootState } from '../../redux/store/reducers/index';
-import { DataType } from '../../types/Data';
 import { Group } from '../../types/Group';
+import { DataType } from '../../types/Config';
 
 interface SearchType {
     data: any[],
@@ -24,7 +24,7 @@ export default function Search({
     getResult
 }: SearchType) {
     const searchInput = useInput("");
-    const { dataType } = useTypedSelector((state: RootState) => state.data);
+    const { dataType } = useTypedSelector((state: RootState) => state.config);
 
     useEffect(() => {
         searchInData(searchInput.value().toLowerCase());

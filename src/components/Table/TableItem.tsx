@@ -31,7 +31,8 @@ export default function TableItem(props: TableItemProps) {
         >
             <td className={styles.body__item}>{props.row.name}</td>
             {props.cols.map((col: number, i: number) => {
-                return <td key={i} className={styles.body__item}>{props.hours[col]}</td>
+                const res: number = props.hours[col];
+                return <td key={i} className={res === 0 ? [styles.body__item, styles.body__item_empty].join(" ") : styles.body__item}>{res === 0 ? "" : res}</td>
             })}
             <td className={styles.body__item}>{sum(props.hours)}</td>
         </tr>

@@ -12,7 +12,7 @@ import styles from './Space.module.scss';
 export default function TeacherSpace() {
   var { props, loading } = useTypedSelector((state: RootState) => state.item);
   props = props as TeacherProps;
-  var { addNotification, setProps } = useActions();
+  var { addWarning, setProps } = useActions();
   var year = props
     ? `${props!.year}-${props!.year + 1}`
     : new Date().getFullYear();
@@ -24,10 +24,7 @@ export default function TeacherSpace() {
       props!.year + 1 === date.getFullYear() &&
       date.getMonth() < new Date(`1 Sep ${date.getFullYear()}`).getMonth()
     ) {
-      addNotification(
-        NotificationType.warning,
-        'В будующее смотреть нельзя :('
-      );
+      addWarning('В будующее смотреть нельзя :(');
     } else {
       setProps(props!.year + 1);
     }
@@ -35,7 +32,7 @@ export default function TeacherSpace() {
 
   function prevYear() {
     if (props!.year === 2021) {
-      addNotification(NotificationType.warning, 'API: Меня тогда ещё не было');
+      addWarning('API: Меня тогда ещё не было');
     } else {
       setProps(props!.year - 1);
     }
@@ -98,6 +95,7 @@ export default function TeacherSpace() {
       )}
       {!loading && (
         <Table
+          rowTitle="Месяц"
           hours={getHours()}
           selectTabId={props.currentTabId}
           selectRowId={props.currentRowId}

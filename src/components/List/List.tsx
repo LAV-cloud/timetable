@@ -8,8 +8,8 @@ import { CgArrowRight } from 'react-icons/cg';
 import ExportAll from '../ExportAll/ExportAll';
 import { Group, GroupProps } from '../../types/Group';
 import { Teacher, TeacherProps } from '../../types/Teacher';
-import { DataType } from '../../types/Data';
 import { useActions } from '../../redux/hooks/useActions';
+import { DataType } from '../../types/Config';
 
 export default function List() {
     var [hide, setHide] = useState(false);
@@ -69,19 +69,33 @@ export default function List() {
 }
 
 function DataMode() {
-    const { dataType } = useTypedSelector((state: RootState) => state.data);
+    const { dataType, typeSetting } = useTypedSelector((state: RootState) => state.config);
     const { setDataType } = useActions();
 
     return (
         <div className={styles.list__modes}>
-            <button onClick={() => setDataType(DataType.teachers)} className={dataType === DataType.teachers ? [styles.list__mode, styles.list__mode_select].join(" ") : styles.list__mode}>{DataType.teachers}</button>
-            <button onClick={() => setDataType(DataType.groups)} className={dataType === DataType.groups ? [styles.list__mode, styles.list__mode_select].join(" ") : styles.list__mode}>{DataType.groups}</button>
+            <button
+                onClick={() => setDataType(DataType.teachers)}
+                className={dataType === DataType.teachers ?
+                    [styles.list__mode, styles.list__mode_select].join(" ") :
+                    styles.list__mode}
+            >
+                {typeSetting[DataType.teachers].name}
+            </button>
+            <button
+                onClick={() => setDataType(DataType.groups)}
+                className={dataType === DataType.groups ?
+                    [styles.list__mode, styles.list__mode_select].join(" ") :
+                    styles.list__mode}
+            >
+                {typeSetting[DataType.groups].name}
+            </button>
         </div>
     )
 }
 
 function ListItems({ nowData }: { nowData: Teacher[] | Group[] }) {
-    var { dataType } = useTypedSelector((state: RootState) => state.data);
+    var { dataType } = useTypedSelector((state: RootState) => state.config);
     var { props } = useTypedSelector((state: RootState) => state.item);
 
     switch (dataType) {

@@ -23,8 +23,8 @@
   transition: all 0.2s ease;
   min-width: 200px;
   &__modes {
-    padding: 2px;
-    height: 30px;
+    padding: 4px;
+    height: 36px;
     border-radius: 4px;
     width: 100%;
     display: flex;
@@ -39,7 +39,7 @@
     width: 100%;
     padding: 0px 5px;
     border: none;
-    background-color: $first;
+    background-color: $bg;
     border-radius: 2px;
     color: white;
     &_select {
@@ -140,5 +140,8 @@
   }
   .menu {
     display: flex;
+  }
+  .invisibleComponent {
+    display: none;
   }
 }

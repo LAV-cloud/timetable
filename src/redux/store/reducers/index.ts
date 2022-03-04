@@ -4,12 +4,14 @@ import { dataReducer } from './DataReducer';
 import { itemReducer } from './ItemReducer';
 import { loaderReducer } from './Loader';
 import { exportReducer } from './ExportReducer';
+import { configReducer } from './ConfigReducer';
 
 export const rootReducer = combineReducers({
+  loader: loaderReducer,
+  config: configReducer,
   item: itemReducer,
   data: dataReducer,
   notification: notificationReducer,
-  loader: loaderReducer,
   exportSetting: exportReducer,
 });
 

@@ -1,3 +1,4 @@
+import { loading } from '../../functions/loading';
 import { useActions } from '../../redux/hooks/useActions';
 import { Group } from '../../types/Group';
 import { Teacher } from '../../types/Teacher';
@@ -10,14 +11,11 @@ interface ItemProps {
 }
 
 export default function ListItem(props: ItemProps) {
-    const { startLoading, generateTable } = useActions();
+    const { generateTable } = useActions();
 
     return (
         <button
-            onClick={() => {
-                startLoading();
-                generateTable(props.item)
-            }}
+            onClick={() => loading(generateTable, props.item)}
             className={props.selectId === props.item.id ?
                 [styles.item, styles.item_select].join(" ") : styles.item}
         >

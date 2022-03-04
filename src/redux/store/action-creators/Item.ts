@@ -27,28 +27,19 @@ export const setProps = (
 };
 
 export const generateTable = (object: Teacher | Group) => {
-  return async (dispatch: Dispatch<ItemAction | LoaderAction>) => {
-    try {
-      dispatch({
-        type: ItemActionType.startGenerate,
-      });
-      const date = new Date();
-      const year =
-        date.getMonth() >= 8 ? date.getFullYear() : date.getFullYear() - 1;
-      generateProps(object, year).then(
-        (props: TeacherProps | GroupProps | undefined) => {
-          if (!props) dispatch({ type: ItemActionType.removeProps });
-          if (props) finishGenerate(dispatch, props);
-        }
-      );
-    } catch (e) {
-      store.dispatch({ type: LoaderActionType.stopLoading });
-      dispatch({
-        type: ItemActionType.failGenerate,
-        payload: 'Произошла ошибка при загрузке данных',
-      });
-      console.error(e);
-    }
+  return (dispatch: Dispatch<ItemAction | LoaderAction>) => {
+    dispatch({
+      type: ItemActionType.startGenerate,
+    });
+    const date = new Date();
+    const year =
+      date.getMonth() >= 8 ? date.getFullYear() : date.getFullYear() - 1;
+    return generateProps(object, year).then(
+      (props: TeacherProps | GroupProps | undefined) => {
+        if (!props) dispatch({ type: ItemActionType.removeProps });
+        if (props) finishGenerate(dispatch, props);
+      }
+    );
   };
 };
 
@@ -64,7 +55,6 @@ function finishGenerate(
     },
   });
   setTimeout(() => {
-    store.dispatch({ type: LoaderActionType.finishLoading });
     dispatch({
       type: ItemActionType.successGenerate,
       payload: props,

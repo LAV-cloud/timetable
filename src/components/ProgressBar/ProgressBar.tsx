@@ -5,8 +5,8 @@ import styles from './ProgressBar.module.scss';
 import { useActions } from '../../redux/hooks/useActions';
 
 export default function ProgressBar() {
-    const { loading, progress, text } = useTypedSelector((state: RootState) => state.loader);
-    const { stopLoading, setProps } = useActions();
+    const { loading, progress, text, error } = useTypedSelector((state: RootState) => state.loader);
+    const { stopLoading } = useActions();
 
     useEffect(() => {
         drawProgress();
@@ -19,7 +19,9 @@ export default function ProgressBar() {
 
     if (loading) {
         return (
-            <div className={styles.progressbar__wrapper}>
+            <div className={error ?
+                [styles.progressbar__wrapper, styles.progressbar__wrapper_error].join(" ")
+                : styles.progressbar__wrapper}>
                 <div className={styles.progressbar}>
                     <div className={styles.progressbar__bg}>
                         <div className={styles.progressbar__front}></div>
@@ -29,7 +31,10 @@ export default function ProgressBar() {
                 {text && (
                     <p className={styles.progressbar__text}>{text}</p>
                 )}
-                <button onClick={() => stopLoading()} className={styles.progressbar__stop}>Остановить загрузку</button>
+                <button
+                    onClick={() => stopLoading()}
+                    className={styles.progressbar__stop}
+                >{error ? "OK" : "Остановить загрузку"}</button>
             </div>
         )
     }

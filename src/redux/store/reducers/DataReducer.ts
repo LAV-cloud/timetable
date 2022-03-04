@@ -1,13 +1,6 @@
-import {
-  DataAction,
-  DataActionType,
-  DataState,
-  DataType,
-} from '../../../types/Data';
+import { DataAction, DataActionType, DataState } from '../../../types/Data';
 
 const initialState: DataState = {
-  dataTypeCount: 2,
-  dataType: DataType.teachers,
   data: [],
   loading: false,
   error: null,
@@ -24,8 +17,6 @@ export const dataReducer = (
       return { ...state, loading: false, error: action.payload };
     case DataActionType.fetchData:
       return { ...state, loading: true, error: null };
-    case DataActionType.setDataType:
-      return { ...state, dataType: action.payload };
     default:
       return state;
   }

@@ -13,6 +13,14 @@
     border-radius: 4px;
     outline: none;
     transition: all 0.2s ease;
+    &_disabled {
+      background-color: $first;
+      border: 2px solid $first;
+      opacity: 0.5;
+      &:hover {
+        cursor: default;
+      }
+    }
     &_open,
     &:active {
       background: 0 0;

@@ -3,22 +3,17 @@ import { useEffect } from 'react';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { RootState } from '../../redux/store/reducers/index';
 import { useActions } from '../../redux/hooks/useActions';
-import { NotificationType } from '../../types/Notification';
-import { DataType } from '../../types/Data';
 import TeacherSpace from './TeacherSpace';
 import GroupSpace from './GroupSpace';
+import { DataType } from '../../types/Config';
 
 export default function Space() {
     const { props, error } = useTypedSelector((state: RootState) => state.item);
-    const { dataType } = useTypedSelector((state: RootState) => state.data);
-    const { addNotification } = useActions();
-
-    // useEffect(() => {
-    //     if (props && !loading) generateTable(teacher!);
-    // }, [props?.year])
+    const { dataType } = useTypedSelector((state: RootState) => state.config);
+    const { addError } = useActions();
 
     useEffect(() => {
-        if (error) addNotification(NotificationType.error, error);
+        if (error) addError(error);
     }, [error])
 
     if (props) {

@@ -1,4 +1,3 @@
-import { exportTeacherFile } from '../../functions/exportTeacher';
 import { useActions } from '../../redux/hooks/useActions';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { RootState } from '../../redux/store/reducers';
@@ -9,15 +8,16 @@ import SelectYear from '../SelectYear/SelectYear';
 import Table from '../Table/Table';
 import styles from './Space.module.scss';
 import { exportGroupFile } from '../../functions/exportGroup';
+import { Day } from '../../types/Week';
 
 export default function GroupSpace() {
     var { props, loading } = useTypedSelector((state: RootState) => state.item);
     props = props as GroupProps;
-    var { addNotification, setProps } = useActions();
+    var { addWarning, setProps } = useActions();
     var year = props
         ? `${props!.year}-${props!.year + 1}`
         : new Date().getFullYear();
-    var filename = props!.group.print + year;
+    var filename = `${props!.group.print}_${year}`;
 
     function nextYear() {
         const date = new Date();
@@ -25,10 +25,7 @@ export default function GroupSpace() {
             props!.year + 1 === date.getFullYear() &&
             date.getMonth() < new Date(`1 Sep ${date.getFullYear()}`).getMonth()
         ) {
-            addNotification(
-                NotificationType.warning,
-                'В будующее смотреть нельзя :('
-            );
+            addWarning('В будующее смотреть нельзя :(');
         } else {
             setProps(props!.year + 1);
         }
@@ -36,7 +33,7 @@ export default function GroupSpace() {
 
     function prevYear() {
         if (props!.year === 2021) {
-            addNotification(NotificationType.warning, 'API: Меня тогда ещё не было');
+            addWarning('API: Меня тогда ещё не было');
         } else {
             setProps(props!.year - 1);
         }
@@ -59,8 +56,8 @@ export default function GroupSpace() {
     function getCols(): { id: number; name: string }[] {
         props = props as GroupProps;
         return props!.days[props!.currentTabId].map(
-            (day: number, i: number) => {
-                return { id: i, name: day.toString() };
+            (day: Day, i: number) => {
+                return { id: i, name: day.id.toString() };
             }
         );
     }
@@ -95,6 +92,7 @@ export default function GroupSpace() {
                         />
                     </div>
                     <Table
+                        rowTitle="Предметы"
                         selectRowId={props.currentRowId}
                         selectTabId={props.currentTabId}
                         year={props.year}

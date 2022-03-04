@@ -4,7 +4,7 @@ import { TeacherProps } from '../types/Teacher';
 const rowHeight = 24;
 const colWidth = 10;
 
-export function draw(
+export function drawTeacherSheet(
   worksheet: Worksheet,
   teacher: string,
   lessonNames: string,

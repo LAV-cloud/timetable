@@ -12,6 +12,7 @@ interface ExportPropsType {
 
 export default function Export({ filename, exportFile, data }: ExportPropsType) {
     const state = useTypedSelector((state: RootState) => state.item);
+    const { dataType, typeSetting } = useTypedSelector((state: RootState) => state.config);
     const { loading } = state;
 
     if (!loading) {
@@ -19,7 +20,8 @@ export default function Export({ filename, exportFile, data }: ExportPropsType) 
             <div className={styles.export}>
                 <button
                     onClick={() => exportFile(filename, data)}
-                    className={styles.export__btn}
+                    className={typeSetting[dataType].export ? styles.export__btn : [styles.export__btn, styles.export__btn_disabled].join(" ")}
+                    disabled={!typeSetting[dataType].export}
                 >
                     Экспорт
                 </button>

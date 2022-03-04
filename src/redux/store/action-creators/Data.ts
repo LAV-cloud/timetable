@@ -2,10 +2,10 @@ import { Dispatch } from 'redux';
 import { fetchData } from '../../../functions/fetch';
 import { Teacher } from '../../../types/Teacher';
 import { Group } from '../../../types/Group';
-import { DataAction, DataActionType, DataType } from '../../../types/Data';
+import { DataAction, DataActionType } from '../../../types/Data';
 import { store } from '..';
 import { LoaderActionType } from '../../../types/Loader';
-import { ItemActionType } from '../../../types/Item';
+import { DataType } from '../../../types/Config';
 
 interface ResponseTeacherType {
   status: boolean;
@@ -29,19 +29,9 @@ interface ResponseGroupType {
   };
 }
 
-export function setDataType(type: DataType) {
-  return (dispatch: Dispatch<DataAction>) => {
-    store.dispatch({ type: ItemActionType.removeProps });
-    dispatch({
-      type: DataActionType.setDataType,
-      payload: type,
-    });
-  };
-}
-
 export const fetchDataApp = () => {
   return async (dispatch: Dispatch<DataAction>) => {
-    const { dataType } = store.getState().data;
+    const { dataType } = store.getState().config;
     switch (dataType) {
       case DataType.groups:
         return await fetchGroups(dispatch);
@@ -72,7 +62,6 @@ async function fetchTeachers(dispatch: Dispatch<DataAction>) {
       payload: response.data.items,
     });
   } catch (e) {
-    store.dispatch({ type: LoaderActionType.stopLoading });
     dispatch({
       type: DataActionType.failFetchData,
       payload: 'Произошла ошибка при загрузке данных',
@@ -92,7 +81,6 @@ async function fetchGroups(dispatch: Dispatch<DataAction>) {
       payload: response.data.items,
     });
   } catch (e) {
-    store.dispatch({ type: LoaderActionType.stopLoading });
     dispatch({
       type: DataActionType.failFetchData,
       payload: 'Произошла ошибка при загрузке данных',

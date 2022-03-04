@@ -27,6 +27,7 @@ interface TablePropsType {
     selectTabId: number
     selectRowId: number,
     hours: number[][]
+    rowTitle: string
 }
 
 export default function Table(props: TablePropsType) {
@@ -35,7 +36,7 @@ export default function Table(props: TablePropsType) {
             <div className={styles.timetable__body}>
                 <TableLessons selectTabId={props.selectTabId} tabs={props.tabs} />
                 <table className={styles.timetable__table} cellPadding={0} cellSpacing={5}>
-                    <TableHeader cols={props.cols} />
+                    <TableHeader rowTitle={props.rowTitle} cols={props.cols} />
                     <TableBody
                         hours={props.hours}
                         cols={props.cols.map((col => col.id))} selectRowId={props.selectRowId}

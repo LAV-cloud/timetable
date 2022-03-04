@@ -1,5 +1,6 @@
 import { Teacher } from './Teacher';
 import { ItemProps } from './Item';
+import { Day } from './Week';
 
 export interface Group {
   id: number;
@@ -15,7 +16,7 @@ export interface Group {
 export interface GroupProps extends ItemProps {
   group: Group;
   lessons: Lesson[][];
-  days: number[][];
+  days: Day[][];
 }
 
 export interface Lesson {

@@ -16,6 +16,18 @@
     width: 100vw;
     height: 100vh;
     background-color: rgb(0, 0, 0, 0.6);
+    &_error {
+      & > .progressbar > .progressbar__bg > .progressbar__front {
+        background-color: $error;
+      }
+      & > .progressbar > .progressbar__progress {
+        color: $error;
+      }
+      & > .progressbar__stop {
+        background-color: $accent;
+        color: white;
+      }
+    }
   }
   &__bg {
     position: relative;
@@ -50,6 +62,7 @@
     font-size: 0.8rem;
   }
   &__stop {
+    white-space: nowrap;
     position: absolute;
     top: calc(50% + 10%);
     left: 50%;

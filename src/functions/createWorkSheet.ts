@@ -1,8 +1,29 @@
 import { Workbook, Worksheet } from 'exceljs';
 import { Group, Lesson, TeacherProps } from '../types/Teacher';
-import { draw } from './drawSheet';
+import { drawTeacherSheet } from './drawTeacherSheet';
+import { drawGroupSheet } from './drawGroupSheet';
+import { GroupProps } from '../types/Group';
 
-export function createWorkSheet(
+export function createGroupWorkSheet(
+  workbook: Workbook,
+  name: string,
+  props: GroupProps,
+  month: string,
+  monthId: number,
+  year: number
+) {
+  const worksheet: Worksheet = workbook.addWorksheet(name);
+  drawGroupSheet(
+    worksheet,
+    props.group,
+    props.days[monthId],
+    props.lessons[monthId],
+    month,
+    year
+  );
+}
+
+export function createTeacherWorkSheet(
   workbook: Workbook,
   name: string,
   props: TeacherProps,
@@ -42,5 +63,14 @@ export function createWorkSheet(
   }
 
   const worksheet: Worksheet = workbook.addWorksheet(name);
-  draw(worksheet, teacher, lessonNames, groups, lessons, hours, props, cols);
+  drawTeacherSheet(
+    worksheet,
+    teacher,
+    lessonNames,
+    groups,
+    lessons,
+    hours,
+    props,
+    cols
+  );
 }

@@ -5,20 +5,20 @@ import { useActions } from "./redux/hooks/useActions";
 import { useTypedSelector } from "./redux/hooks/useTypedSelector";
 import { RootState } from "./redux/store/reducers";
 import { useEffect } from 'react';
-import { NotificationType } from "./types/Notification";
 import { Loader } from './components/Loader/Loader';
 import ProgressBar from "./components/ProgressBar/ProgressBar";
 
 function TimeTableApp() {
-  const { loading, error, data, dataType } = useTypedSelector((state: RootState) => state.data);
-  const { fetchDataApp, addNotification } = useActions();
+  const { loading, error, data } = useTypedSelector((state: RootState) => state.data);
+  const { dataType } = useTypedSelector((state: RootState) => state.config);
+  const { fetchDataApp, addError } = useActions();
 
   useEffect(() => {
     fetchDataApp();
   }, [dataType])
 
   useEffect(() => {
-    if (error) addNotification(NotificationType.error, error);
+    if (error) addError(error);
   }, [error])
 
   if (loading) {

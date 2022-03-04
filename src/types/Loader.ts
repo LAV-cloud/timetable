@@ -1,5 +1,6 @@
 export interface LoaderState {
   loading: boolean;
+  error: boolean;
   progress: number;
   text: string | null;
 }
@@ -9,6 +10,11 @@ export enum LoaderActionType {
   partLoading = 'PART_LOADING',
   finishLoading = 'FINISH_LOADING',
   stopLoading = 'STOP_LOADING',
+  errorLoading = 'ERROR_LOADING',
+}
+interface ErrorLoading {
+  type: LoaderActionType.errorLoading;
+  payload: string;
 }
 
 interface StartLoading {
@@ -32,7 +38,8 @@ export type LoaderAction =
   | StartLoading
   | PartLoading
   | FinishLoading
-  | StopLoading;
+  | StopLoading
+  | ErrorLoading;
 
 export interface LoadingPart {
   progress: number;
