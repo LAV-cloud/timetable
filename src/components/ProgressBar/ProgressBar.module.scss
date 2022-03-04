@@ -78,3 +78,9 @@
     }
   }
 }
+
+@media screen and (max-width: 540px) {
+  .progressbar__bg {
+    width: 60vw;
+  }
+}

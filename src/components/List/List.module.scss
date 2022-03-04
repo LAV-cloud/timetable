@@ -129,6 +129,15 @@
   }
 }
 
+@media screen and (min-width: 1600px) {
+  .list {
+    width: 15%;
+  }
+  .invisibleComponent {
+    width: 15%;
+  }
+}
+
 @media screen and (max-width: 540px) {
   .list {
     z-index: 2;
