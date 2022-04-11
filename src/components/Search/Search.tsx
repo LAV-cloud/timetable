@@ -80,6 +80,7 @@ export default function Search({
             />
             {clear && (
                 <button
+                    aria-label="clear searchfield"
                     onClick={() => searchInput.clear()}
                     className={styles.search__clear}
                 >

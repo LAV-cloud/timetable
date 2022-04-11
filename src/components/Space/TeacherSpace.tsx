@@ -2,7 +2,6 @@ import { exportTeacherFile } from '../../functions/exportTeacher';
 import { useActions } from '../../redux/hooks/useActions';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { RootState } from '../../redux/store/reducers';
-import { NotificationType } from '../../types/Notification';
 import { Group, Lesson, TeacherProps } from '../../types/Teacher';
 import Export from '../Export/Export';
 import SelectYear from '../SelectYear/SelectYear';
@@ -105,9 +104,6 @@ export default function TeacherSpace() {
           cols={getCols()}
         />
       )}
-      <p className={styles.space__created}>
-        Created by Бережной Роман для НКЭиВТ
-      </p>
     </div>
   );
 }

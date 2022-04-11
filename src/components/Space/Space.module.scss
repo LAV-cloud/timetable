@@ -2,71 +2,61 @@
 @import '../../styles/colors.scss';
 
 .loader {
-  width: 60vw;
-  height: 80vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    width: 60vw;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .empty {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: 1rem;
-  color: $third;
-  word-wrap: break-word;
-  & p {
-    max-width: 300px;
-  }
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1rem;
+    color: $third;
+    word-wrap: break-word;
+    & p {
+        max-width: 300px;
+    }
 }
 
 .space {
-  position: relative;
-  left: 70px;
-  max-width: 100vw;
-  padding: 40px;
-  overflow: auto;
-  @include scroll(6px, 100%, white, red, 20px);
-  &__title {
-    font-size: 30px;
-    font-weight: bold;
-    color: white;
-  }
-  &__info {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-  &__year {
-    display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    margin: 20px 0px;
-  }
-  &__created {
-    transition: all 0.2s ease;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    white-space: nowrap;
-    font-size: 0.8em;
-    color: $second;
-  }
+    position: relative;
+    left: 70px;
+    max-width: 100vw;
+    padding: 40px;
+    overflow: auto;
+    &__title {
+        font-size: 30px;
+        font-weight: bold;
+        color: white;
+    }
+    &__info {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+    &__year {
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        margin: 20px 0px;
+    }
 }
 
 @media screen and (max-width: 540px) {
-  .space {
-    left: 0px;
-    width: 100vw;
-    padding: 80px 20px 0px 20px;
-    &__title {
-      font-size: 18px;
+    .space {
+        left: 0px;
+        width: 100vw;
+        padding: 80px 20px 0px 20px;
+        &__title {
+            font-size: 18px;
+        }
     }
-  }
 }

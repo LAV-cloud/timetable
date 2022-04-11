@@ -31,10 +31,12 @@ export default function ProgressBar() {
                 {text && (
                     <p className={styles.progressbar__text}>{text}</p>
                 )}
-                <button
-                    onClick={() => stopLoading()}
-                    className={styles.progressbar__stop}
-                >{error ? "OK" : "Остановить загрузку"}</button>
+                {error && (
+                    <button
+                        onClick={() => stopLoading()}
+                        className={styles.progressbar__stop}
+                    >OK</button>
+                )}
             </div>
         )
     }

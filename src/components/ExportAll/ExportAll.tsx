@@ -37,6 +37,7 @@ export default function ExportAll({ data }: ExportPropsType) {
                 {open && <ExportAllSetting />}
                 <div className={styles.export}>
                     <button
+                        aria-label="export all"
                         disabled={!data.length}
                         className={
                             data.length ?
@@ -49,6 +50,7 @@ export default function ExportAll({ data }: ExportPropsType) {
                     </button>
                     {data.length > 0 && (
                         <button
+                            aria-label="open setting"
                             className={open ?
                                 [styles.export__setting, styles.export__setting_open].join(" ") :
                                 styles.export__setting

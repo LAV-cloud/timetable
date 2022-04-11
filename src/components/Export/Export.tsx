@@ -19,6 +19,7 @@ export default function Export({ filename, exportFile, data }: ExportPropsType) 
         return (
             <div className={styles.export}>
                 <button
+                    aria-label="export file"
                     onClick={() => exportFile(filename, data)}
                     className={typeSetting[dataType].export ? styles.export__btn : [styles.export__btn, styles.export__btn_disabled].join(" ")}
                     disabled={!typeSetting[dataType].export}

@@ -15,6 +15,7 @@ export default function ListItem(props: ItemProps) {
 
     return (
         <button
+            aria-label="generate table"
             onClick={() => loading(generateTable, props.item)}
             className={props.selectId === props.item.id ?
                 [styles.item, styles.item_select].join(" ") : styles.item}

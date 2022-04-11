@@ -1,0 +1,23 @@
+@import '../../styles/colors.scss';
+
+.retry {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    &__text {
+        color: white;
+        font-size: 20px;
+        padding-bottom: 1rem;
+    }
+    &__btn {
+        font-size: 14px;
+        padding: 10px 20px;
+        background-color: $accent;
+        border: none;
+        border-radius: 4px;
+        color: white;
+    }
+}

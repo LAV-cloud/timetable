@@ -25,6 +25,7 @@ export default function List() {
         return (
             <div className={[styles.list, styles.list_hide].join(" ")}>
                 <button
+                    aria-label="hide menu"
                     onClick={() => setHide(false)}
                     className={styles.list__show}
                 >
@@ -37,13 +38,14 @@ export default function List() {
     return (
         <>
             {!hide && <div className={styles.invisibleComponent}></div>}
-            <button onClick={() => setOpen(true)} className={styles.menu}>
+            <button aria-label="show menu" onClick={() => setOpen(true)} className={styles.menu}>
                 <span />
                 <span />
                 <span />
             </button>
             <div className={open ? [styles.list_open, styles.list].join(" ") : styles.list}>
                 <button
+                    aria-label="hide menu"
                     onClick={() => {
                         if (open) setOpen(false);
                         if (!open) setHide(true)
@@ -75,6 +77,7 @@ function DataMode() {
     return (
         <div className={styles.list__modes}>
             <button
+                aria-label="set data type teacher"
                 onClick={() => setDataType(DataType.teachers)}
                 className={dataType === DataType.teachers ?
                     [styles.list__mode, styles.list__mode_select].join(" ") :
@@ -83,6 +86,7 @@ function DataMode() {
                 {typeSetting[DataType.teachers].name}
             </button>
             <button
+                aria-label="set data type group"
                 onClick={() => setDataType(DataType.groups)}
                 className={dataType === DataType.groups ?
                     [styles.list__mode, styles.list__mode_select].join(" ") :

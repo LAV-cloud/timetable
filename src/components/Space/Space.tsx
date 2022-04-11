@@ -28,7 +28,6 @@ export default function Space() {
     return (
         <div className={styles.empty}>
             <p>Выберите кого-нибудь из списка</p>
-            <p className={styles.space__created}>Created by Бережной Роман для НКЭиВТ</p>
         </div>
     )
 }

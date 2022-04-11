@@ -1,0 +1,13 @@
+@import '../../styles/colors.scss';
+
+.layout {
+    &__created {
+        transition: all 0.2s ease;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        white-space: nowrap;
+        font-size: 0.8em;
+        color: $second;
+    }
+}

@@ -2,7 +2,6 @@ import { useActions } from '../../redux/hooks/useActions';
 import { useTypedSelector } from '../../redux/hooks/useTypedSelector';
 import { RootState } from '../../redux/store/reducers';
 import { GroupProps, Lesson } from '../../types/Group';
-import { NotificationType } from '../../types/Notification';
 import Export from '../Export/Export';
 import SelectYear from '../SelectYear/SelectYear';
 import Table from '../Table/Table';
@@ -103,9 +102,6 @@ export default function GroupSpace() {
                     />
                 </>
             )}
-            <p className={styles.space__created}>
-                Created by Бережной Роман для НКЭиВТ
-            </p>
         </div>
     );
 }

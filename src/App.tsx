@@ -7,6 +7,8 @@ import { RootState } from "./redux/store/reducers";
 import { useEffect } from 'react';
 import { Loader } from './components/Loader/Loader';
 import ProgressBar from "./components/ProgressBar/ProgressBar";
+import Layout from "./components/Layout/Layout";
+import Retry from "./components/Retry/Retry";
 
 function TimeTableApp() {
   const { loading, error, data } = useTypedSelector((state: RootState) => state.data);
@@ -23,27 +25,34 @@ function TimeTableApp() {
 
   if (loading) {
     return (
-      <div className="loader">
-        <Loader />
-      </div>
+      <Layout>
+        <div className="loader">
+          <Loader />
+        </div>
+      </Layout>
     )
   }
 
-  if (data) {
+  if (!error && data) {
     return (
-      <div className="content">
-        <List />
-        <Space />
-        <NotificationList />
-        <ProgressBar />
-      </div>
+      <Layout>
+        <div className="content">
+          <List />
+          <Space />
+          <NotificationList />
+          <ProgressBar />
+        </div>
+      </Layout>
     );
   }
 
   return (
-    <div className="content">
-      <NotificationList />
-    </div>
+    <Layout>
+      <div className="content">
+        <Retry perform={fetchDataApp} error={error ?? "Произошла ошибка"} />
+        <NotificationList />
+      </div>
+    </Layout>
   )
 }
 

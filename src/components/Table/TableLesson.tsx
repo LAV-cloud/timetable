@@ -10,6 +10,7 @@ export default function TableLesson(props: TableLessonProps) {
 
     return (
         <button
+            aria-label="set tab props"
             onClick={() => setProps(undefined, undefined, props.tab.id)}
             className={
                 props.selectTabId === props.tab.id ?

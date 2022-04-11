@@ -9,9 +9,9 @@ interface SelectYearPropsType {
 export default function SelectYear(props: SelectYearPropsType) {
     return (
         <div className={styles.year}>
-            <button onClick={() => props.prevYear()} className={styles.year__btn}>{"<"}</button>
+            <button aria-label="prev year" onClick={() => props.prevYear()} className={styles.year__btn}>{"<"}</button>
             <p>{props.year} - {props.year + 1}</p>
-            <button onClick={() => props.nextYear()} className={styles.year__btn}>{">"}</button>
+            <button aria-label="next year" onClick={() => props.nextYear()} className={styles.year__btn}>{">"}</button>
         </div>
     )
 }

@@ -55,6 +55,7 @@ function ExportAllMode(props: ExportModePropsType) {
 
     return (
         <button
+            aria-label="select export mode"
             onClick={() => props.selectMode(props.mode.id)}
             disabled={props.mode.disabled}
             className={classes.join(" ")}
@@ -89,9 +90,9 @@ function ExportAllCount() {
         <div className={styles.count}>
             <p className={styles.count__title}>Количество</p>
             <div className={styles.count__value}>
-                <button onClick={() => decreaseCount()} className={styles.count__btn}>-</button>
+                <button aria-label="decrease count" onClick={() => decreaseCount()} className={styles.count__btn}>-</button>
                 <p>{count}</p>
-                <button onClick={() => increaseCount()} className={styles.count__btn}>+</button>
+                <button aria-label="increase count" onClick={() => increaseCount()} className={styles.count__btn}>+</button>
             </div>
         </div>
     )
