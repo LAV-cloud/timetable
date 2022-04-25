@@ -46,9 +46,23 @@ function calculatePart(
     day: number
 ) {
     const lessonId: number = props.lessons[month].findIndex(
-        (lesson) => lesson.subject.id === item.subject.id
+        (lesson) =>
+            lesson.subject.id === item.subject.id &&
+            lesson.subgroup === item.subgroup?.name
     );
+
     if (lessonId === -1) {
+        const lesson = createLesson(item);
+        days.map((d: Day, i: number) => {
+            lesson.hours[i] = 0;
+            if (day - 1 === i) lesson.hours[i] = lessonTimeValue;
+            return d;
+        });
+        props.lessons[month].push(lesson);
+    } else if (
+        item.subgroup !== undefined &&
+        props.lessons[month][lessonId].subgroup !== item.subgroup.name
+    ) {
         const lesson = createLesson(item);
         days.map((d: Day, i: number) => {
             lesson.hours[i] = 0;
@@ -88,11 +102,11 @@ export function createGroupProps(year: number, group: Group): GroupProps {
 }
 
 function createLesson(item: ItemType): Lesson {
-    const lesson = {
+    return {
         id: item.id,
         teacher: item.teacher,
         subject: item.subject,
         hours: [],
+        subgroup: item.subgroup?.name,
     };
-    return lesson;
 }
