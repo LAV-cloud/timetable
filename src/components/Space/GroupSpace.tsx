@@ -48,7 +48,7 @@ export default function GroupSpace() {
     function getRows(): { id: number; name: string }[] {
         props = props as GroupProps;
         return props!.lessons[props!.currentTabId].map((lesson: Lesson, i: number) => {
-            return { id: i, name: lesson.subject.name };
+            return { id: i, name: lesson.subgroup ? `${lesson.subject.name} (${lesson.teacher.secondName})` : lesson.subject.name };
         });
     }
 
