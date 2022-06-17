@@ -23,16 +23,17 @@ export async function generateProps(
 async function generateTeacherProps(
     teacher: Teacher,
     year: number
-): Promise<TeacherProps | undefined> {
+): Promise<TeacherProps> {
     console.log('TeacherId', teacher.id);
     var weeks: Week[] = getWeeks(year);
-    var props: TeacherProps | undefined = createTeacherProps(year, teacher);
-    var nowMonth: number = 0;
-    var i = 0;
+    var props: TeacherProps = createTeacherProps(year, teacher);
+    var nowMonth: number = 0,
+        error: boolean = false;
+
     await Promise.all(
-        weeks.map(async (week) => {
+        weeks.map(async (week, i: number) => {
+            if (error) return;
             try {
-                if (props === undefined) return;
                 await calculateTeacher(
                     nowMonth,
                     week,
@@ -41,9 +42,10 @@ async function generateTeacherProps(
                     weeks[weeks.length - 1].id
                 );
                 printPart(i + 1, weeks.length);
-                i++;
+                return week;
             } catch (e) {
-                props = undefined;
+                error = true;
+                throw e;
             }
         })
     );

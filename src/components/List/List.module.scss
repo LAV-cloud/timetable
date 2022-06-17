@@ -2,155 +2,155 @@
 @import '../../styles/colors.scss';
 
 .invisibleComponent {
-  display: block;
-  width: 20vw;
-  height: 100vh;
-  min-width: 200px;
+    display: block;
+    width: 20vw;
+    height: 100vh;
+    min-width: 200px;
 }
 
 .list {
-  position: fixed;
-  left: 0px;
-  top: 0px;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  width: 20vw;
-  background-color: $first;
-  padding: 20px;
-  transition: all 0.2s ease;
-  min-width: 200px;
-  &__modes {
-    padding: 4px;
-    height: 36px;
-    border-radius: 4px;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    background-color: $bg;
-    margin-bottom: 10px;
-  }
-  &__mode {
-    height: 100%;
-    width: 100%;
-    padding: 0px 5px;
-    border: none;
-    background-color: $bg;
-    border-radius: 2px;
-    color: white;
-    &_select {
-      background-color: $second;
-    }
-  }
-  &__show {
-    margin-bottom: 20px;
-    border: none;
-    background: 0 0;
-    color: white;
-    opacity: 0.2;
-    font-size: 12px;
-    & svg {
-      font-size: 16px;
-    }
-  }
-  &_hide {
-    width: 50px;
-    min-width: 50px;
-  }
-  &__items {
-    margin-top: 20px;
-    height: 80%;
-    width: 100%;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    @include scroll(6px, 80%, $second, inherit, 20px);
-  }
-  &__notfound {
-    height: 80%;
-    width: 100%;
-    display: flex;
     align-items: center;
-    justify-content: center;
-    color: $third;
-  }
-  &__count {
-    margin: 10px auto 0px 0px;
-    text-align: start;
-    color: white;
-    font-size: 14px;
-  }
+    justify-content: flex-start;
+    width: 20vw;
+    background-color: $first;
+    padding: 20px;
+    transition: all 0.2s ease;
+    min-width: 200px;
+    &__modes {
+        padding: 4px;
+        height: 36px;
+        border-radius: 4px;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        background-color: $bg;
+        margin-bottom: 10px;
+    }
+    &__mode {
+        height: 100%;
+        width: 100%;
+        padding: 0px 5px;
+        border: none;
+        background-color: $bg;
+        border-radius: 2px;
+        color: white;
+        &_select {
+            background-color: $second;
+        }
+    }
+    &__show {
+        margin-bottom: 20px;
+        border: none;
+        background: 0 0;
+        color: white;
+        opacity: 0.2;
+        font-size: 12px;
+        & svg {
+            font-size: 16px;
+        }
+    }
+    &_hide {
+        width: 50px;
+        min-width: 50px;
+    }
+    &__items {
+        margin-top: 20px;
+        height: 80%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        @include scroll(6px, 80%, $second, inherit, 20px);
+    }
+    &__notfound {
+        height: 80%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: $third;
+    }
+    &__count {
+        margin: 10px auto 0px 0px;
+        text-align: start;
+        color: white;
+        font-size: 14px;
+    }
 }
 
 .item {
-  width: calc(100% - 5px);
-  padding: 12px 20px;
-  margin-bottom: 5px;
-  border: none;
-  background-color: $second;
-  color: white;
-  transition: all 0.2s ease;
-  border-radius: 4px;
-  &:active {
-    background: 0 0;
-  }
-  &_select {
-    background: $accent;
-    &:hover {
-      background: $accent;
+    width: calc(100% - 5px);
+    padding: 12px 20px;
+    margin-bottom: 5px;
+    border: none;
+    background-color: $second;
+    color: white;
+    transition: all 0.2s ease;
+    border-radius: 4px;
+    &:active {
+        background: 0 0;
     }
-  }
+    &_select {
+        background: $accent;
+        &:hover {
+            background: $accent;
+        }
+    }
 }
 
 .menu {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  width: 30px;
-  height: 30px;
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  border-radius: 50%;
-  background-color: $first;
-  z-index: 2;
-  & span {
-    width: 15px;
-    height: 1px;
-    background-color: $four;
-    margin: 1px 0px;
-  }
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    width: 30px;
+    height: 30px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 50%;
+    background-color: $first;
+    z-index: 2;
+    & span {
+        width: 15px;
+        height: 1px;
+        background-color: $four;
+        margin: 1px 0px;
+    }
 }
 
 @media screen and (min-width: 1600px) {
-  .list {
-    width: 15%;
-  }
-  .invisibleComponent {
-    width: 15%;
-  }
+    .list {
+        width: 15%;
+    }
+    .invisibleComponent {
+        width: 15%;
+    }
 }
 
 @media screen and (max-width: 540px) {
-  .list {
-    z-index: 2;
-    display: none;
-    &_open {
-      width: 100%;
-      display: flex;
+    .list {
+        z-index: 2;
+        display: none;
+        &_open {
+            width: 100%;
+            display: flex;
+        }
     }
-  }
-  .menu {
-    display: flex;
-  }
-  .invisibleComponent {
-    display: none;
-  }
+    .menu {
+        display: flex;
+    }
+    .invisibleComponent {
+        display: none;
+    }
 }

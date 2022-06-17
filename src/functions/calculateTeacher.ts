@@ -18,6 +18,12 @@ export async function calculateTeacher(
     try {
         const url = `schedule/subject/${week.year}/${week.id}?accountId=${teacher.id}`;
         const response: ResponseType = await fetchData(url);
+        if (
+            response === null ||
+            response.data === null ||
+            !response.data.items.length
+        )
+            return;
         response.data.items.map((item: ItemType) => {
             if (week.days.filter((day) => day.day === item.day).length)
                 calculatePart(item, props, week.month);
@@ -29,12 +35,13 @@ export async function calculateTeacher(
             calculateTotalHoursForMonth(props, nowMonth);
             nowMonth = week.month;
         }
+        return props;
     } catch (e) {
         store.dispatch({
             type: LoaderActionType.errorLoading,
             payload: `Произошла ошибка при загрузке недели  weekId: ${week.id}`,
         });
-        throw new Error();
+        throw e;
     }
 }
 

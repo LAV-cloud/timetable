@@ -12,7 +12,6 @@ declare global {
   }
 }
 
-// eslint-disable-next-line no-extend-native
 Date.prototype.getWeek = function () {
   var dt: Date = new Date(this.getFullYear(), 0, 1);
   return Math.ceil(

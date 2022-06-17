@@ -7,31 +7,33 @@ import { DataType } from '../types/Config';
 import { loading } from './loading';
 
 export async function exportAllData(data: Teacher[] | Group[]) {
-  return await loading(async () => {
-    const type = store.getState().config.dataType;
-    switch (type) {
-      case DataType.teachers:
-        return await exportTeachersProps(data as Teacher[]);
-    }
-  });
+    return await loading(async () => {
+        const type = store.getState().config.dataType;
+        switch (type) {
+            case DataType.teachers:
+                return await exportTeachersProps(data as Teacher[]);
+        }
+    });
 }
 
 async function exportTeachersProps(data: Teacher[]) {
-  var exportProps: TeacherProps[] = [];
-  var { count, year, filename } = store.getState().exportSetting;
+    var exportProps: TeacherProps[] = [];
+    var { count, year, filename } = store.getState().exportSetting;
 
-  await Promise.all(
-    data.map(async (teacher: Teacher, i: number) => {
-      if (i < count) {
-        const prop: TeacherProps | undefined = (await generateProps(
-          teacher,
-          year
-        )) as TeacherProps | undefined;
-        if (prop === undefined) return;
-        exportProps.push(prop);
-      }
-    })
-  );
-  if (exportProps.length) await exportTeachersData(filename, exportProps);
-  return;
+    for (let i = 0; i < data.length; i++) {
+        try {
+            if (i < count) {
+                const prop: TeacherProps | undefined = (await generateProps(
+                    data[i],
+                    year
+                )) as TeacherProps | undefined;
+                if (prop === undefined) return;
+                exportProps.push(prop);
+            }
+        } catch (e) {
+            console.error((e as Error).message);
+        }
+    }
+    if (exportProps.length) await exportTeachersData(filename, exportProps);
+    return;
 }
